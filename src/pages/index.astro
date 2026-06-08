@@ -8,7 +8,9 @@ const bornDate = "2010-06-08T00:00:00";
 const photoUrl = "/evelyn.jpeg";
 const ig_url = "https://www.instagram.com/denice._hg/";
 
-const creditLabel = "CON CARIÑO POR: JOSÉ DANIEL";
+const creditLabel = "CON CARIÑO POR: ";
+const creditName = "JOSÉ DANIEL";
+const creditIg = "https://www.instagram.com/sheneyby2010_/";
 const ogImageUrl = "https://cumpleanos-evelyn.vercel.app/og.jpg";
 const description =
     "🎂 ¡Feliz cumpleaños, Evelyn! De parte de JD con mucho amor y cariño: espero que disfrutes tu día lo más asombrosamente posible. De verdad, muchas gracias por ser una muy buena amiga a la que le pido las tareas jsjsjsjsjs. 🎉🎂🎈";
@@ -408,7 +410,10 @@ const phrases = [
             </div>
         </main>
 
-        <div class="author">{creditLabel}</div>
+        <div class="author">
+            {creditLabel}
+            <a href={creditIg} target="_blank" rel="noopener noreferrer">{creditName}</a>
+        </div>
 
         <script>
             import { launchBirthdayConfetti } from '../scripts/confetti';
