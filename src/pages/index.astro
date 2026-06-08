@@ -1,0 +1,555 @@
+---
+import '../styles/global.css';
+
+const firstName = "Evelyn Denice";
+const lastName = "Hernández Gutiérrez";
+const title = "FC: Evelyn ❤️";
+const bornDate = "2010-06-08T00:00:00";
+const photoUrl = "/evelyn.jpeg";
+const ig_url = "https://www.instagram.com/denice._hg/";
+
+const creditLabel = "CON CARIÑO POR: JOSÉ DANIEL";
+const ogImageUrl = "/og.jpg";
+const description =
+    "¡Feliz cumpleaños, Evelyn! De parte de JD con mucho amor y cariño: espero que disfrutes tu día lo más asombrosamente posible. De verdad, muchas gracias por ser una muy buena amiga a la que le pido las tareas jsjsjsjsjs. 🎉🎂🎈";
+
+const birthdaySongUrl = "/music/mañanitas.mp3";
+const phrases = [
+    'maravillosa... :0',
+    'única... :b',
+    'una gran amiga... :D',
+    'callada... >:|',
+    'linda... :3',
+    'divertida... xD',
+    'downy. :v'
+];
+---
+
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <meta name="keywords" content="fc,evelyn,feliz cumpleaños,happy birthday,amigos,celebración" />
+        <meta name="author" content="Sheñey" />
+
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@Sheñey" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImageUrl} />
+        <meta name="twitter:image:alt" content={title} />
+        <meta name="theme-color" content="#ff4fa3" />
+
+        <title>{title}</title>
+        <link rel="icon" href="favicon.jpg" type="image/jpg" />
+
+        <style>
+            :root {
+                --bg: #050505;
+                --pink: #ff4fa3;
+                --white: #ffffff;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                min-height: 100vh;
+                background: var(--bg);
+                color: var(--white);
+                font-family: Inter, system-ui, sans-serif;
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            h2 {
+                font-weight: 650;
+                margin-bottom: 0.5rem;
+            }
+
+            .background-lines {
+                position: fixed;
+                inset: 0;
+                overflow: hidden;
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            .line {
+                position: absolute;
+                background: var(--pink);
+                opacity: 0.12;
+                border-radius: 999px;
+                filter: blur(4px);
+            }
+
+            .line1 {
+                width: 700px;
+                height: 18px;
+                top: 12%;
+                left: -120px;
+                transform: rotate(-18deg);
+            }
+
+            .line2 {
+                width: 600px;
+                height: 24px;
+                right: -100px;
+                top: 25%;
+                transform: rotate(24deg);
+            }
+
+            .line3 {
+                width: 800px;
+                height: 20px;
+                bottom: 12%;
+                left: -150px;
+                transform: rotate(12deg);
+            }
+
+            .container {
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+            }
+
+            .card {
+                display: flex;
+                align-items: center;
+                gap: 4rem;
+                z-index: 2;
+            }
+
+            .photo {
+                width: 320px;
+                height: 320px;
+                border-radius: 50%;
+                overflow: hidden;
+                border: 5px solid var(--pink);
+                box-shadow:
+                    0 0 40px rgba(255, 79, 163, 0.25),
+                    0 0 80px rgba(255, 79, 163, 0.12);
+                cursor: pointer;
+                rotate: -40deg;
+                transition: transform .3s ease;
+            }
+
+            .photo img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .photo:hover {
+                transform: scale(1.02);
+            }
+
+            .photo-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .music-btn {
+                margin-top: 1rem;
+                background: transparent;
+                border: 2px solid var(--pink);
+                color: var(--pink);
+                padding: .75rem 1.25rem;
+                border-radius: 999px;
+                cursor: pointer;
+                transition: all .3s ease;
+            }
+
+            .music-btn:hover {
+                background: var(--pink);
+                color: white;
+            }
+
+            .content {
+                text-align: center;
+            }
+
+            .name {
+                font-size: clamp(1.92rem, 4vw, 3.5rem);
+                font-weight: 750;
+                margin-bottom: 1rem;
+            }
+
+            .name span {
+                display: block;
+            }
+
+            .subtitle {
+                color: var(--pink);
+                font-size: 1.2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .counter {
+                display: grid;
+                grid-template-columns: repeat(6, 100px);
+                gap: 1rem;
+                justify-content: center;
+                margin-bottom: 2rem;
+            }
+
+            .item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .number {
+                font-size: 2.4rem;
+                font-weight: 800;
+                line-height: 1;
+                text-align: center;
+            }
+
+            .label {
+                color: var(--pink);
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                text-align: center;
+                margin-top: 0.35rem;
+            }
+
+            .birthday {
+                font-size: clamp(1.5rem, 3vw, 2.2rem);
+                font-weight: 700;
+            }
+
+            .birthday span {
+                color: var(--pink);
+            }
+
+            .author {
+                position: fixed;
+                bottom: 0.8rem;
+                width: 100%;
+                text-align: right;
+                padding-right: 1rem;
+                color: rgba(255, 255, 255, 0.65);
+                font-size: 0.7rem;
+            }
+
+            .cursor {
+                color: var(--pink);
+                animation: blink 1s infinite;
+            }
+
+            @keyframes blink {
+                50% {
+                    opacity: 0;
+                }
+            }
+
+            .photo.playing {
+                animation: glow 2s infinite;
+            }
+
+            @keyframes glow {
+                0% {
+                    box-shadow:
+                        0 0 25px rgba(255,79,163,.25);
+                }
+
+                50% {
+                    box-shadow:
+                        0 0 55px rgba(255,79,163,.65);
+                }
+
+                100% {
+                    box-shadow:
+                        0 0 25px rgba(255,79,163,.25);
+                }
+            }
+
+            @media (max-width: 900px) {
+                body {
+                    overflow-x: hidden;
+                    overflow-y: auto;
+                }
+
+                .container {
+                    padding: 2rem 1rem;
+                }
+
+                .card {
+                    flex-direction: column;
+                    gap: 2rem;
+                    width: 100%;
+                }
+
+                .content {
+                    width: 100%;
+                }
+
+                .photo {
+                    width: 250px;
+                    height: 250px;
+                }
+
+                .counter {
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 1.5rem;
+                    width: 100%;
+                    max-width: 320px;
+                    margin: 0 auto 2rem;
+                }
+
+                .item {
+                    min-width: 75px;
+                }
+
+                .number {
+                    font-size: 1.8rem;
+                }
+
+                .author {
+                    position: static;
+                    text-align: center;
+                    margin-top: 6rem;
+                    margin-bottom: 2rem;
+                    font-size: 0.8rem;
+                }
+
+                .music-btn {
+                    padding: .5rem 1rem;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="background-lines">
+            <div class="line line1"></div>
+            <div class="line line2"></div>
+            <div class="line line3"></div>
+        </div>
+
+        <main class="container">
+            <div class="card">
+                <div class="photo-container">
+                    <div class="photo">
+                        <a href={ig_url} target="_blank" rel="noopener noreferrer">
+                            <img src={photoUrl} alt={`${firstName} ${lastName}`} loading="eager" />
+                        </a>
+                    </div>
+    
+                    <button id="music-toggle" class="music-btn">
+                        ▶ Reproducir Las Mañanitas
+                    </button>
+    
+                    <audio id="birthday-song">
+                        <source src={birthdaySongUrl} type="audio/mpeg" />
+                    </audio>
+                </div>
+
+                <div class="content">
+                    <h1 class="name">
+                        <span>{firstName}</span>
+                        <span>{lastName}</span>
+                    </h1>
+
+                    <p class="subtitle">¡Felicidades, has sobrevivido!</p>
+
+                    <div class="counter">
+                        <div class="item">
+                            <div class="number" id="years">0</div>
+                            <div class="label">Años</div>
+                        </div>
+
+                        <div class="item">
+                            <div class="number" id="months">0</div>
+                            <div class="label">Meses</div>
+                        </div>
+
+                        <div class="item">
+                            <div class="number" id="days">0</div>
+                            <div class="label">Días</div>
+                        </div>
+
+                        <div class="item">
+                            <div class="number" id="hours">0</div>
+                            <div class="label">Horas</div>
+                        </div>
+
+                        <div class="item">
+                            <div class="number" id="minutes">0</div>
+                            <div class="label">Mins</div>
+                        </div>
+
+                        <div class="item">
+                            <div class="number" id="seconds">0</div>
+                            <div class="label">Segs</div>
+                        </div>
+                    </div>
+
+                    <h2 class="birthday">
+                        <span>Eres</span>
+                        <span id="typing-text"></span>
+                        <span class="cursor">|</span>
+                    </h2>
+                </div>
+            </div>
+        </main>
+
+        <div class="author">{creditLabel}</div>
+
+        <script>
+            import { launchBirthdayConfetti } from '../scripts/confetti';
+
+            window.addEventListener('load', () => {
+                launchBirthdayConfetti();
+            });
+        </script>
+
+        <script define:vars={{ bornDate }} is:inline>
+            const birthDate = new Date(bornDate);
+
+            function updateCounter() {
+                const now = new Date();
+
+                let years = now.getFullYear() - birthDate.getFullYear();
+                let months = now.getMonth() - birthDate.getMonth();
+                let days = now.getDate() - birthDate.getDate();
+
+                if (days < 0) {
+                    months--;
+                    const previousMonth = new Date(
+                        now.getFullYear(),
+                        now.getMonth(),
+                        0,
+                    );
+                    days += previousMonth.getDate();
+                }
+
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                const todayStart = new Date(
+                    now.getFullYear(),
+                    now.getMonth(),
+                    now.getDate(),
+                );
+
+                const birthToday = new Date(
+                    todayStart.getFullYear(),
+                    todayStart.getMonth(),
+                    todayStart.getDate(),
+                );
+
+                const diff = now - birthToday;
+
+                const hours = Math.floor(diff / 3600000);
+                const minutes = Math.floor((diff % 3600000) / 60000);
+                const seconds = Math.floor((diff % 60000) / 1000);
+
+                document.getElementById('years').textContent = years;
+                document.getElementById('months').textContent = months;
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            }
+
+            updateCounter();
+            setInterval(updateCounter, 1000);
+        </script>
+
+        <script>
+            const button = document.getElementById('music-toggle');
+            const audio = document.getElementById('birthday-song');
+            const photo = document.querySelector('.photo');
+
+            audio?.addEventListener('play', () => {
+                photo?.classList.add('playing');
+            });
+
+            audio?.addEventListener('pause', () => {
+                photo?.classList.remove('playing');
+            });
+
+            audio?.addEventListener('ended', () => {
+                photo?.classList.remove('playing');
+            });
+
+            button?.addEventListener('click', () => {
+                if (audio?.paused) {
+                    audio.play();
+                    button.textContent =
+                        '⏸ Pausar Las Mañanitas';
+
+                } else {
+                    audio?.pause();
+                    button.textContent =
+                        '▶ Reproducir Las Mañanitas';
+                }
+            });
+            audio?.addEventListener('ended', () => {
+                button.textContent = '▶ Reproducir Las Mañanitas';
+            });
+
+            if (audio?.paused) {
+                audio.play();
+                photo?.classList.add('playing');
+                button.textContent =
+                    '⏸ Pausar Las Mañanitas';
+            } else {
+                audio?.pause();
+                photo?.classList.remove('playing');
+                button.textContent =
+                    '▶ Reproducir Las Mañanitas';
+            }
+        </script>
+
+        <script define:vars={{ phrases }} is:inline>
+            const element = document.getElementById('typing-text');
+
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let deleting = false;
+
+            function typeEffect() {
+                const currentPhrase = phrases[phraseIndex];
+
+                if (!deleting) {
+                    element.textContent = currentPhrase.slice(0, charIndex + 1);
+                    charIndex++;
+
+                    if (charIndex === currentPhrase.length) {
+                        deleting = true;
+                        setTimeout(typeEffect, 2000);
+                        return;
+                    }
+                } else {
+                    element.textContent = currentPhrase.slice(0, charIndex - 1);
+                    charIndex--;
+
+                    if (charIndex === 0) {
+                        deleting = false;
+                        phraseIndex = (phraseIndex + 1) % phrases.length;
+                    }
+                }
+
+                setTimeout(typeEffect, deleting ? 40 : 80);
+            }
+
+            typeEffect();
+        </script>
+    </body>
+</html>
