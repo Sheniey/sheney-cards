@@ -172,11 +172,21 @@ const phrases = [
                 border-radius: 999px;
                 cursor: pointer;
                 transition: all .3s ease;
+
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: .25rem;
             }
 
             .music-btn:hover {
                 background: var(--pink);
                 color: white;
+            }
+
+            .music-btn svg {
+                fill: currentColor;
+                color: inherit;
             }
 
             .content {
@@ -353,10 +363,13 @@ const phrases = [
                     </div>
     
                     <button id="music-toggle" class="music-btn">
-                        ▶ Reproducir Las Mañanitas
+                        <span id="music-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M336-216v-528l408 264-408 264Zm73-265Zm-1 133 204-132-204-132v264Z"/></svg></span>
+                        <span id="music-text">
+                            Reproducir Las Mañanitas
+                        </span>
                     </button>
     
-                    <audio id="birthday-song">
+                    <audio id="birthday-song" autoplay>
                         <source src={birthdaySongUrl} type="audio/mpeg" />
                     </audio>
                 </div>
@@ -482,6 +495,13 @@ const phrases = [
             const button = document.getElementById('music-toggle');
             const audio = document.getElementById('birthday-song');
             const photo = document.querySelector('.photo');
+            const icon = document.getElementById('music-icon');
+            const text = document.getElementById('music-text');
+
+            const Icons = {
+                play: '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M336-216v-528l408 264-408 264Zm73-265Zm-1 133 204-132-204-132v264Z"/></svg>',
+                pause: '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M528-192v-576h240v576H528Zm-336 0v-576h240v576H192Zm408-72h96v-432h-96v432Zm-336 0h96v-432h-96v432Zm0-432v432-432Zm336 0v432-432Z"/></svg>'
+            }
 
             audio?.addEventListener('play', () => {
                 photo?.classList.add('playing');
@@ -498,30 +518,22 @@ const phrases = [
             button?.addEventListener('click', () => {
                 if (audio?.paused) {
                     audio.play();
-                    button.textContent =
-                        '⏸ Pausar Las Mañanitas';
-
+                    icon.innerHTML = Icons.pause;
+                    text.textContent = 'Pausar Las Mañanitas';
                 } else {
                     audio?.pause();
-                    button.textContent =
-                        '▶ Reproducir Las Mañanitas';
+                    icon.innerHTML = Icons.play;
+                    text.textContent = 'Reproducir Las Mañanitas';
                 }
             });
             audio?.addEventListener('ended', () => {
-                button.textContent = '▶ Reproducir Las Mañanitas';
+                icon.innerHTML = Icons.play;
+                text.textContent = 'Reproducir Las Mañanitas';
             });
 
-            if (audio?.paused) {
-                audio.play();
-                photo?.classList.add('playing');
-                button.textContent =
-                    '⏸ Pausar Las Mañanitas';
-            } else {
-                audio?.pause();
-                photo?.classList.remove('playing');
-                button.textContent =
-                    '▶ Reproducir Las Mañanitas';
-            }
+            audio.play();
+            icon.innerHTML = Icons.pause;
+            text.textContent = 'Pausar Las Mañanitas';
         </script>
 
         <script define:vars={{ phrases }} is:inline>
