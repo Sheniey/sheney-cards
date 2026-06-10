@@ -1,6 +1,6 @@
 
 export const SITE = {
-  baseURL: 'https://cumpleanos.vercel.app',
+  baseURL: 'https://sheney-cards.vercel.app',
   keywords: 'fc,feliz cumpleaños,happy birthday,amigos,celebración',
   
   authorPseudonym: 'Sheñey',

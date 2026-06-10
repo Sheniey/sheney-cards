@@ -1,0 +1,34 @@
+---
+import * as site from '@/config/site';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Roadmap</title>
+    </head>
+
+    <body> 
+        <h2>
+            Mapa de cumpleaños
+        </h2>
+        
+        <p style="margin-bottom: 1em; color: #666;">
+            Está página como se puede ver no tienes estilos, más bien es una página de debuggin'
+        </p>
+        
+        <hr>
+        
+        <h3>
+            Cumpleaños
+        </h3>
+        <ul style="list-style: none; padding-left: 0;">
+            <li><a href={site.getBirthdayURL('evelyn')}>Evelyn : 08/Jun/2026</a></li>
+            <li><a href={site.getBirthdayURL('leydy')}>Leydy : 10/Jun/2026</a></li>
+            <li><a href={site.getBirthdayURL('kareli')}>Kareli : 13/Jun/2026</a></li>
+        </ul>
+    </body>
+</html>
+
