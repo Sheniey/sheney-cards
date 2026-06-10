@@ -1,36 +1,37 @@
 ---
-export interface CitaProps {
-    mensaje: string;
+export interface QuoteProps {
+    message: string;
     author: string;
+    className?: string;
 }
 
-const { mensaje, author } = Astro.props as CitaProps;
+const { message, author, className } = Astro.props as QuoteProps;
 ---
 
-<figure class="cita-wrap">
-    <blockquote class="cita">
+<figure class={`quote-wrap ${className || ""}`}>
+    <blockquote class="quote">
         <span class="qmark" id="qmark-open">"</span>
-        <span class="texto">{mensaje}</span>
+        <span class="texto">{message}</span>
         <span class="qmark" id="qmark-close">"</span>
     </blockquote>
-    <figcaption class="cita-author">— {author}</figcaption>
+    <figcaption class="quote-author">— {author}</figcaption>
 </figure>
 
 <style>
-    .cita-wrap {
+    .quote-wrap {
         position: relative;
         margin: 1rem auto 1rem;
         width: max(17ch, 100%);
         padding: 1rem 1.15rem 0.9rem;
         border-radius: 22px;
-        border: 1px solid var(--cita-border-color, #11111124);
-        background: var(--cita-wrap-color, #d59cf6);
+        border: 1px solid var(--quote-border-color, #11111124);
+        background: var(--quote-wrap-color, #d59cf6);
         box-shadow:
-            0 14px 30px var(--cita-shadow1-color, #00000047),
-            0 2px 10px var(--cita-shadow2-color, #0000001f);
+            0 14px 30px var(--quote-shadow1-color, #00000047),
+            0 2px 10px var(--quote-shadow2-color, #0000001f);
     }
 
-    .cita {
+    .quote {
         margin: 0;
         position: relative;
         display: flex;
@@ -50,7 +51,7 @@ const { mensaje, author } = Astro.props as CitaProps;
     }
 
     .qmark {
-        color: var(--cita-qmark-color, #101010);
+        color: var(--quote-qmark-color, #101010);
         position: absolute;
         font-size: clamp(2rem, 4vw, 3rem);
         line-height: 0.9;
@@ -69,7 +70,7 @@ const { mensaje, author } = Astro.props as CitaProps;
         transform: rotate(180deg);
     }
 
-    .cita-author {
+    .quote-author {
         margin-top: 0.45rem;
         text-align: right;
         color: var(--theme-primary-color, #202020);

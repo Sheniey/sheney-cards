@@ -9,7 +9,7 @@ import BackgroundHearts from "@/components/BackgroundHearts.astro";
 import MainPhoto from "@/components/MainPhoto.astro";
 import MusicPlayerFrame from "@/components/MusicPlayerFrame.astro";
 import LifeCount from "@/components/LifeCount.astro";
-import Cita from "@/components/Cita.astro";
+import Quote from "@/components/Quote.astro";
 import PhotoVentoGrid from "@/components/PhotoVentoGrid.astro";
 import FeedbackLabel from "@/components/FeedbackLabel.astro";
 import Author from "@/components/Author.astro";
@@ -20,8 +20,8 @@ export interface AlbumProps {
 }
 
 const { personData } = Astro.props as AlbumProps;
-const quoteMessage = personData.quote?.trim() ?? "";
-const hasQuote = quoteMessage.length > 0;
+const quotes = personData.quotes ?? [];
+const hasQuote = quotes.length > 0;
 
 const styles: Record<string, [string, string]> = {
     body: [
@@ -31,12 +31,12 @@ const styles: Record<string, [string, string]> = {
             background: ${personData.theme.backgroundColor};
             --theme-primary-color: ${personData.theme.primaryColor};
             --theme-secondary-color: ${personData.theme.secondaryColor};
-            --cita-text-color: ${personData.theme.complementaryColor?.[2] ?? personData.theme.primaryColor};
-            --cita-wrap-color: ${personData.theme.complementaryColor?.[3] ?? personData.theme.secondaryColor + "c5"};
-            --cita-qmark-color: ${personData.theme.complementaryColor?.[4] ?? personData.theme.primaryColor + "c5"};
-            --cita-border-color: ${personData.theme.complementaryColor?.[5] ?? personData.theme.secondaryColor + '24'};
-            --cita-shadow1-color: ${personData.theme.complementaryColor?.[6] ?? personData.theme.secondaryColor + '47'};
-            --cita-shadow2-color: ${personData.theme.complementaryColor?.[7] ?? personData.theme.secondaryColor + '1f'};
+            --quote-text-color: ${personData.theme.complementaryColor?.[2] ?? personData.theme.primaryColor};
+            --quote-wrap-color: ${personData.theme.complementaryColor?.[3] ?? personData.theme.secondaryColor + "c5"};
+            --quote-qmark-color: ${personData.theme.complementaryColor?.[4] ?? personData.theme.primaryColor + "c5"};
+            --quote-border-color: ${personData.theme.complementaryColor?.[5] ?? personData.theme.secondaryColor + '24'};
+            --quote-shadow1-color: ${personData.theme.complementaryColor?.[6] ?? personData.theme.secondaryColor + '47'};
+            --quote-shadow2-color: ${personData.theme.complementaryColor?.[7] ?? personData.theme.secondaryColor + '1f'};
             --music-pulse-compl1-color: ${personData.theme.complementaryColor?.[0] ?? personData.theme.primaryColor + "40"};
             --music-pulse-compl2-color: ${personData.theme.complementaryColor?.[1] ?? personData.theme.primaryColor + "1f"};
         `,
@@ -101,24 +101,31 @@ const styles: Record<string, [string, string]> = {
                     </section>
 
                     {
-                        
                         hasQuote && (
-                            <br />
-                            <h2
-                                class="subtitle"
-                                style={`color: var(--theme-primary-color);`}
-                                id="subtitle-quote"
-                                transition:name="subtitle-quote"
-                                transition:animate="fade"
-                            >
-                                Frases que la Lady Gaga <i>sí</i> dijó...
-                            </h2>
-                            <section class="quote-zone timeline-view animate-fade-in-up animate-delay-100 animate-range-[entry_15%_contain_40%]">
-                                <Cita
-                                    mensaje={quoteMessage}
-                                    author={`${personData.firstName} ${personData.lastName}`}
-                                />
-                            </section>
+                            <>
+                                <br />
+                                <section class="quote-section">
+                                    <h2
+                                        class="subtitle timeline-view animate-fade-in-up animate-range-[entry_15%_contain_40%]"
+                                        style="color: var(--theme-primary-color);"
+                                        id="subtitle-quote"
+                                        transition:name="subtitle-quote"
+                                        transition:animate="fade"
+                                    >
+                                        Frases que la Lady Gaga <i>sí</i> dijo...
+                                    </h2>
+                                    
+                                    <div class="quote-zone timeline-view animate-fade-in-up animate-delay-100 animate-range-[entry_15%_contain_40%]">
+                                        {quotes.map((quote) => (
+                                                <Quote
+                                                    message={quote.message}
+                                                    author={quote.author}
+                                                    className="quote-item"
+                                                />
+                                        ))}
+                                    </div>
+                                </section>
+                            </>
                         )
                     }
 
@@ -248,11 +255,6 @@ const styles: Record<string, [string, string]> = {
         gap: 2rem;
     }
 
-    .quote-zone {
-        width: min(100%, 1020px);
-        margin: -0.25rem auto 0.25rem;
-    }
-
     .counter-zone {
         text-align: center;
     }
@@ -318,6 +320,21 @@ const styles: Record<string, [string, string]> = {
         z-index: 10;
     }
 
+    .quote-zone {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: min(100%, 1020px);
+        margin: 0 auto;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        gap: 0.4rem;
+    }
+
+    .quote-zone .quote-item {
+        width: 100%;
+        margin: 0;
+    }
+
     .thanks {
         text-align: center;
         font-size: clamp(1.3rem, 2.8vw, 1.8rem);
@@ -364,6 +381,10 @@ const styles: Record<string, [string, string]> = {
 
         .album-photo {
             height: 100svh;
+        }
+
+        .quote-zone {
+            grid-template-columns: 1fr;
         }
 
         .text-thanks {

@@ -27,7 +27,7 @@ export interface PersonBirthdayData {
         website: string | null;
     },
     message: string;
-    quote: string | null;
+    quotes: { message: string; author: string }[] | null;
     phrases: string[] | null;
     theme: {
         backgroundColor: string;

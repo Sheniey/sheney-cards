@@ -10,7 +10,7 @@
             "instagram": "https://www.instagram.com/kare_680/"
         },
         "message": "Aún no es tu cumple Kareli por cierto.",
-        "quote": null,
+        "quotes": null,
         "phrases": null,
         "theme": {
             "backgroundColor": "#050505",
@@ -44,7 +44,7 @@
             "instagram": "https://www.instagram.com/denice._hg/"
         },
         "message": "espero que disfrutes tu día lo más asombrosamente posible. De verdad, muchas gracias por ser una muy buena amiga a la que le pido las tareas jsjsjsjsjs. ",
-        "quote": null,
+        "quotes": null,
         "phrases": [
             "maravillosa... :0",
             "única... :b",
@@ -92,7 +92,12 @@
             "instagram": "https://www.instagram.com/leydy.cm/"
         },
         "message": "Lady Gaga soy eres mí fan, estoy agradecido de que lo seas... ya fuera de bromas, joder 16 años, recuerdo que te caia mal lptm cuando tenias 13 años.",
-        "quote": "¡Oí! tú tío, medicate wey...",
+        "quotes": [
+            { "message": "¡Oí! tú tío, medicate wey...", "author": "Leydy Amairani Campos Martínez" },
+            { "message": "Ushhh ash!! ¡Andrés!", "author": "Leydy Amairani Campos Martínez" },
+            { "message": "JAJAJAJAJAJAJA", "author": "Leydy Amairani Campos Martínez" },
+            { "message": "¡Uy! qué heidy...", "author": "Leydy Amairani Campos Martínez" }
+        ],
         "phrases": null,
         "theme": {
             "backgroundColor": "#050505",
