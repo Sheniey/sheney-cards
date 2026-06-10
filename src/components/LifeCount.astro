@@ -1,0 +1,189 @@
+---
+import type { PersonBirthdayData } from '@/types';
+
+export interface LifeCountProps {
+    personData: PersonBirthdayData;
+    size?: 'mid' | 'large'
+}
+const { personData, size = 'mid' } = Astro.props as LifeCountProps;
+
+const rawBornDate = personData.bornDate;
+const counterId = Math.random().toString(36).slice(2);
+const ids = {
+    years: `years-${counterId}`,
+    months: `months-${counterId}`,
+    days: `days-${counterId}`,
+    hours: `hours-${counterId}`,
+    minutes: `minutes-${counterId}`,
+    seconds: `seconds-${counterId}`,
+};
+
+const styles: Record<string, [string, string]> = {
+    container: [
+        'grid gap-4 justify-center',
+        '',
+    ],
+    item: ['flex flex-col items-center', ''],
+    number: [
+        'leading-none text-center max-lg:text-[1.8rem]',
+        `color: ${personData.theme.secondaryColor}; font-size: ${size === 'large' ? '4.5rem' : '2.4rem'};`,
+    ],
+    label: [
+        '',
+        `color: ${personData.theme.primaryColor}; letter-spacing:2px`,
+    ],
+};
+---
+
+<div class={`life-counter ${styles.container[0]}`} transition:name="counter" transition:animate="fade">
+    <div class={styles.item[0]} style={styles.item[1]}>
+        <div class={`count-number ${styles.number[0]}`} style={styles.number[1]} id={ids.years}>
+            0
+        </div>
+        <div class={`count-label ${styles.label[0]}`} style={styles.label[1]}>Años</div>
+    </div>
+
+    <div class={styles.item[0]} style={styles.item[1]}>
+        <div class={`count-number ${styles.number[0]}`} style={styles.number[1]} id={ids.months}>
+            0
+        </div>
+        <div class={`count-label ${styles.label[0]}`} style={styles.label[1]}>Meses</div>
+    </div>
+
+    <div class={styles.item[0]} style={styles.item[1]}>
+        <div class={`count-number ${styles.number[0]}`} style={styles.number[1]} id={ids.days}>0</div>
+        <div class={`count-label ${styles.label[0]}`} style={styles.label[1]}>Días</div>
+    </div>
+
+    <div class={styles.item[0]} style={styles.item[1]}>
+        <div class={`count-number ${styles.number[0]}`} style={styles.number[1]} id={ids.hours}>
+            0
+        </div>
+        <div class={`count-label ${styles.label[0]}`} style={styles.label[1]}>Horas</div>
+    </div>
+
+    <div class={styles.item[0]} style={styles.item[1]}>
+        <div class={`count-number ${styles.number[0]}`} style={styles.number[1]} id={ids.minutes}>
+            0
+        </div>
+        <div class={`count-label ${styles.label[0]}`} style={styles.label[1]}>Mins</div>
+    </div>
+
+    <div class={styles.item[0]} style={styles.item[1]}>
+        <div class={`count-number ${styles.number[0]}`} style={styles.number[1]} id={ids.seconds}>
+            0
+        </div>
+        <div class={`count-label ${styles.label[0]}`} style={styles.label[1]}>Segs</div>
+    </div>
+</div>
+
+<script define:vars={{ rawBornDate, personData, ids }} is:inline>
+    
+    const bornDate = new Date(rawBornDate);
+    const livedTime = Date.now() - bornDate.getTime();
+    const livedTimes = {
+        seconds: Math.floor(livedTime / 1000),
+        minutes: Math.floor(livedTime / 60000),
+        hours: Math.floor(livedTime / 3600000),
+        days: Math.floor(livedTime / 86400000),
+        months: Math.floor(livedTime / (86400000 * 30.44)),
+        years: Math.floor(livedTime / (86400000 * 365.25)),
+    };
+
+    if (personData.name === "Leydy") {
+        alert(
+`¡Feliz cumpleaños, ${personData.name}! 🎉🎂 Espero que no olvides lo increíble que eres, pero ¿en serio ya te medicaste?. ¡Que tengas un día maravilloso lleno de amor y alegría a la vesh! 🥳💖
+            
+Llevas:
+ - ${livedTimes.years} años vividos. :3
+ - ${livedTimes.months} meses vividos. :D
+ - ${livedTimes.days} días vividos. :|
+ - ${livedTimes.hours} horas vividas. D:
+ - ${livedTimes.minutes} minutos vividos ._.
+ - ${livedTimes.seconds} segundos vividos. XD`);
+    }
+
+    function updateCounter() {
+        const now = new Date();
+
+        let years = now.getFullYear() - bornDate.getFullYear();
+        let months = now.getMonth() - bornDate.getMonth();
+        let days = now.getDate() - bornDate.getDate();
+
+        if (days < 0) {
+            months--;
+            const previousMonth = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                0,
+            );
+            days += previousMonth.getDate();
+        }
+
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        const todayStart = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate(),
+        );
+
+        const birthToday = new Date(
+            todayStart.getFullYear(),
+            todayStart.getMonth(),
+            todayStart.getDate(),
+        );
+
+        const diff = now - birthToday;
+
+        const hours = Math.floor(diff / 3600000);
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+
+        document.getElementById(ids.years).textContent = String(years);
+        document.getElementById(ids.months).textContent = String(months);
+        document.getElementById(ids.days).textContent = String(days);
+        document.getElementById(ids.hours).textContent = String(hours);
+        document.getElementById(ids.minutes).textContent = String(minutes);
+        document.getElementById(ids.seconds).textContent = String(seconds);
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+</script>
+
+<style>
+    .life-counter {
+        grid-template-columns: repeat(6, 100px);
+        margin: 2rem auto 2rem;
+    }
+
+    .count-label {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+        margin-top: 0.35rem;
+    }
+
+    .count-number {
+        font-weight: 800;
+    }
+
+    @media (max-width: 900px) {
+        .life-counter {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 320px;
+            margin: 2rem auto 2rem;
+        }
+
+        .count-number {
+            font-size: 2.7rem !important;
+        }
+    }
+</style>

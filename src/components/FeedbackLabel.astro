@@ -1,0 +1,33 @@
+---
+export interface AuthorProps {
+    label: string;
+}
+
+const { label = '' } = Astro.props as AuthorProps;
+---
+
+<div class="fb-label">
+    {label}
+</div>
+
+<style>
+    .fb-label {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: right;
+        padding: 0 1.8rem;
+        color: rgba(67, 67, 67, 0.65);
+        font-size: 0.7rem;
+    }
+
+    @media (max-width: 900px) {
+        .fb-label {
+            position: static;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+        }
+    }
+</style>

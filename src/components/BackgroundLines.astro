@@ -1,0 +1,64 @@
+---
+import "@/styles/global.css";
+import type { ResponsiveColor } from "@/types";
+
+export interface BackgroundLinesProps {
+    linesColor: string | ResponsiveColor;
+}
+
+const { linesColor } = Astro.props as BackgroundLinesProps;
+---
+
+<div class="background-lines" style={`--color-pc-bg-lines: ${typeof linesColor === "string" ? linesColor : linesColor.pc}; --color-cel-bg-lines: ${typeof linesColor === "string" ? linesColor : linesColor.cel}`}>
+    <div class="line line1"></div>
+    <div class="line line2"></div>
+    <div class="line line3"></div>
+</div>
+
+<style>
+    .background-lines {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .line {
+        position: absolute;
+        background: var(--color-pc-bg-lines);
+        opacity: 0.12;
+        border-radius: 999px;
+        filter: blur(4px);
+    }
+
+    @media (max-width: 900px) {
+        .line {
+            background: var(--color-cel-bg-lines);
+        }
+    }
+
+    .line1 {
+        width: 700px;
+        height: 18px;
+        top: 12%;
+        left: -120px;
+        transform: rotate(-18deg);
+    }
+
+    .line2 {
+        width: 600px;
+        height: 24px;
+        right: -100px;
+        top: 25%;
+        transform: rotate(24deg);
+    }
+
+    .line3 {
+        width: 800px;
+        height: 20px;
+        bottom: 12%;
+        left: -150px;
+        transform: rotate(12deg);
+    }
+</style>

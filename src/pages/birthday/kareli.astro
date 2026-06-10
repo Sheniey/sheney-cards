@@ -1,0 +1,8 @@
+---
+import Banner from '@/layouts/Banner.astro';
+import { getBirthdayData } from '@/data/birthdays';
+
+const kareliData = getBirthdayData('kareli');
+---
+
+<Banner personData={kareliData} />

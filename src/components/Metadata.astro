@@ -1,0 +1,66 @@
+---
+import * as site from '@/config/site'
+
+export interface MetadataProps {
+    title: string;
+    name: string;
+    message: string;
+    theme: {
+        backgroundColor: string;
+        primaryColor: string;
+        secondaryColor: string;
+    };
+}
+
+const { title, name, message, theme } = Astro.props as MetadataProps;
+
+const currURL = site.getBirthdayURL(name);
+const favicon = site.getFaviconData();
+const author = site.SITE.authorPseudonym;
+
+const seo = {
+    title: title,
+    description: site.getDescription(name, message),
+    keywords: site.SITE.keywords,
+}
+
+const og = {
+    title: seo.title,
+    description: seo.description,
+    image: site.getOgImageData(),
+    type: site.SITE.ogType,
+}
+
+const twitter = {
+    title: seo.title,
+    description: seo.description,
+    card: site.SITE.twitterCard,
+    creator: site.SITE.twitterCreator,
+    image: site.getTwitterImageData(),
+}
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content={seo.description} />
+<meta name="keywords" content={seo.keywords} />
+<meta name="author" content={author} />
+
+<meta property="og:title" content={og.title} />
+<meta property="og:description" content={og.description} />
+<meta property="og:image" content={og.image.url} />
+<meta property="og:image:alt" content={og.image.alt} />
+<meta property="og:image:type" content={og.image.type} />
+<meta property="og:type" content={og.type} />
+<meta property="og:url" content={currURL} />
+<meta name="twitter:card" content={twitter.card} />
+<meta name="twitter:creator" content={twitter.creator} />
+<meta name="twitter:title" content={twitter.title} />
+<meta name="twitter:description" content={twitter.description} />
+<meta name="twitter:image" content={twitter.image.url} />
+<meta name="twitter:image:alt" content={twitter.image.alt} />
+<meta name="twitter:image:type" content={twitter.image.type} />
+<meta name="theme-color" content={theme.primaryColor} />
+
+<title>{title}</title>
+<link rel="icon" href={favicon.url} type={favicon.type} />

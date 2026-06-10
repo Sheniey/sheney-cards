@@ -1,0 +1,87 @@
+---
+import * as media from '@/config/media';
+import type { PersonBirthdayData } from '@/types';
+
+export interface MainPhotoProps {
+    personData: PersonBirthdayData;
+    className?: string;
+}
+const { personData, className = 'photo' } = Astro.props as MainPhotoProps;
+
+const photoURL = media.getPhotoURL(personData.nameId, personData.mainPhoto.title);
+---
+
+<div class="photo-container flex flex-col items-center">
+    <div
+        class={`
+            ${className}
+        `}
+        style={`
+            --mphoto-primary-color: ${personData.theme.primaryColor};
+            --mphoto-secondary-color: ${personData.theme.secondaryColor};
+            --mphoto-compl1-color: ${personData.theme.complementaryColor?.[0] ?? personData.theme.primaryColor + '40'};
+            --mphoto-compl2-color: ${personData.theme.complementaryColor?.[1] ?? personData.theme.primaryColor + '1f'};
+            --mphoto-compl3-color: ${personData.theme.complementaryColor?.[2] ?? personData.theme.primaryColor + 'a6'};
+            ${personData.mainPhoto.style ?? ''}
+        `}   
+    >
+        {
+            personData.links.instagram ? (
+                <a
+                    href={personData.links.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <img
+                        src={photoURL}
+                        alt={personData.mainPhoto.alt}
+                        loading="eager"
+                    />
+                </a>
+            ) : (
+                <img
+                    src={photoURL}
+                    alt={personData.mainPhoto.alt}
+                    loading="eager"
+                    transition:name="main-photo"
+                    transition:animate="fade"
+                />
+            )
+        }
+    </div>
+
+    <slot />
+</div>
+
+<style>
+    .photo {
+        width: 320px !important;
+        height: 320px !important;
+        overflow: hidden;
+        border-radius: 50% !important;
+        border: 5px solid var(--mphoto-primary-color) !important;
+        box-shadow:
+            0 0 40px var(--mphoto-compl1-color),
+            0 0 80px var(--mphoto-compl2-color) !important;
+        cursor: pointer;
+        transition: transform .3s ease !important;
+        
+        &:hover {
+            transform: scale(1.02) !important;
+        }
+    }
+
+    .photo img {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+    }
+
+    @media (max-width: 900px) {
+        .photo {
+            width: 250px !important;
+            height: 250px !important;
+        }
+    }
+</style>

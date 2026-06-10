@@ -1,0 +1,135 @@
+---
+import "@/styles/global.css";
+import type { ResponsiveColor } from "@/types";
+
+export interface BackgroundHeartProps {
+    heartsColor: string | ResponsiveColor;
+}
+
+const { heartsColor } = Astro.props as BackgroundHeartProps;
+---
+
+<div class="background-hearts" style={`--color-pc-bg-hearts: ${typeof heartsColor === "string" ? heartsColor : heartsColor.pc}; --color-cel-bg-hearts: ${typeof heartsColor === "string" ? heartsColor : heartsColor.cel}`}>
+    <span class="heart h1">❤</span>
+    <span class="heart h2">❤</span>
+    <span class="heart h3">❤</span>
+    <span class="heart h4">❤</span>
+    <span class="heart h5">❤</span>
+    <span class="heart h6">❤</span>
+    <span class="heart h7">❤</span>
+    <span class="heart h8">❤</span>
+    <span class="heart h9">❤</span>
+    <span class="heart h10">❤</span>
+    <span class="heart h11">❤</span>
+    <span class="heart h12">❤</span>
+</div>
+
+<style>
+    .background-hearts {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .heart {
+        position: absolute;
+        color: var(--color-pc-bg-hearts);
+        opacity: 0.15;
+        filter: blur(0.4px);
+        line-height: 1;
+        user-select: none;
+    }
+
+    .h1 {
+        font-size: 52px;
+        top: 6%;
+        left: 10%;
+        transform: rotate(-14deg);
+    }
+
+    .h2 {
+        font-size: 72px;
+        top: 12%;
+        right: 14%;
+        transform: rotate(22deg);
+    }
+
+    .h3 {
+        font-size: 40px;
+        top: 28%;
+        left: 5%;
+        transform: rotate(-28deg);
+    }
+
+    .h4 {
+        font-size: 68px;
+        top: 34%;
+        right: 5%;
+        transform: rotate(14deg);
+    }
+
+    .h5 {
+        font-size: 96px;
+        top: 42%;
+        left: 18%;
+        transform: rotate(-6deg);
+    }
+
+    .h6 {
+        font-size: 48px;
+        top: 47%;
+        right: 28%;
+        transform: rotate(30deg);
+    }
+
+    .h7 {
+        font-size: 62px;
+        top: 58%;
+        left: 40%;
+        transform: rotate(-18deg);
+    }
+
+    .h8 {
+        font-size: 88px;
+        top: 64%;
+        right: 12%;
+        transform: rotate(7deg);
+    }
+
+    .h9 {
+        font-size: 42px;
+        bottom: 18%;
+        left: 16%;
+        transform: rotate(-24deg);
+    }
+
+    .h10 {
+        font-size: 80px;
+        bottom: 12%;
+        left: 56%;
+        transform: rotate(12deg);
+    }
+
+    .h11 {
+        font-size: 60px;
+        bottom: 8%;
+        right: 8%;
+        transform: rotate(-10deg);
+    }
+
+    .h12 {
+        font-size: 46px;
+        top: 22%;
+        left: 48%;
+        transform: rotate(24deg);
+    }
+
+    @media (max-width: 900px) {
+        .heart {
+            color: var(--color-cel-bg-hearts);
+            opacity: 0.12;
+        }
+    }
+</style>

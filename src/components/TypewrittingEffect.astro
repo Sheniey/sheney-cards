@@ -1,0 +1,82 @@
+---
+export interface TypewrittingEffectProps {
+    phrases: string[];
+    fixedText?: string;
+    color: string;
+    className?: string;
+    id?: string;
+    style?: string;
+}
+const { phrases, fixedText, color, className, id, style } =
+    Astro.props as TypewrittingEffectProps;
+const instanceId = crypto.randomUUID();
+const typingTextId = `typing-text-${instanceId}`;
+---
+
+<h2
+    class={`typewriter-effect ${className}`}
+    id={id}
+    style={style}
+    transition:name="phrases"
+    transition:animate="slide"
+>
+    {fixedText && <span style={`color: ${color};`}>{fixedText}</span>}
+    <span id={typingTextId} style={`color: ${color};`}></span>
+    <span class="cursor" style={`color: ${color};`}>|</span>
+</h2>
+
+<script define:vars={{ phrases, typingTextId }} is:inline>
+    const element = document.getElementById(typingTextId);
+    const phraseList = Array.isArray(phrases) ? phrases.filter(Boolean) : [];
+
+    if (element && phraseList.length > 0) {
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+
+        function typeEffect() {
+            const currentPhrase = phraseList[phraseIndex];
+
+            if (!deleting) {
+                element.textContent = currentPhrase.slice(0, charIndex + 1);
+                charIndex++;
+
+                if (charIndex === currentPhrase.length) {
+                    deleting = true;
+                    setTimeout(typeEffect, 2000);
+                    return;
+                }
+            } else {
+                element.textContent = currentPhrase.slice(0, charIndex - 1);
+                charIndex--;
+
+                if (charIndex === 0) {
+                    deleting = false;
+                    phraseIndex = (phraseIndex + 1) % phraseList.length;
+                }
+            }
+
+            setTimeout(typeEffect, deleting ? 40 : 80);
+        }
+
+        typeEffect();
+    }
+</script>
+
+<style>
+    .cursor {
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    .typewriter-effect {
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        font-weight: 700;
+        margin: 2rem auto 2rem;
+    }
+</style>

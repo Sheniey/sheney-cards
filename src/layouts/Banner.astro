@@ -1,0 +1,136 @@
+---
+import "@/styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import type { PersonBirthdayData } from "@/types";
+
+import Metadata from "@/components/Metadata.astro";
+import Container from "@/components/Container.astro";
+import BackgroundLines from "@/components/BackgroundLines.astro";
+import MainPhoto from "@/components/MainPhoto.astro";
+import MusicPlayerFrame from "@/components/MusicPlayerFrame.astro";
+import LifeCount from "@/components/LifeCount.astro";
+import TypewrittingEffect from "@/components/TypewrittingEffect.astro";
+import Confetti from "@/components/Confetti.astro";
+import Author from "@/components/Author.astro";
+
+export interface BannerProps {
+    personData: PersonBirthdayData;
+}
+const { personData } = Astro.props as BannerProps;
+
+const styles: Record<string, [string, string]> = {
+    body: [
+        "min-h-screen relative overflow-x-hidden max-lg:overflow-x-hidden max-lg:overflow-y-auto",
+        `
+            color: ${personData.theme.secondaryColor};
+            background: ${personData.theme.backgroundColor};
+            --theme-primary-color: ${personData.theme.primaryColor};
+            --theme-secondary-color: ${personData.theme.secondaryColor};
+            --music-pulse-compl1-color: ${personData.theme.complementaryColor?.[0] ?? personData.theme.primaryColor + '40'};
+            --music-pulse-compl2-color: ${personData.theme.complementaryColor?.[1] ?? personData.theme.primaryColor + '1f'};
+        `,
+    ],
+};
+---
+
+<html lang="es">
+    <head>
+        <Metadata
+            title={personData.title}
+            name={`${personData.firstName} ${personData.lastName}`}
+            message={personData.message}
+            theme={{
+                backgroundColor: personData.theme.backgroundColor,
+                primaryColor: personData.theme.primaryColor,
+                secondaryColor: personData.theme.secondaryColor,
+            }}
+        />
+
+        <ClientRouter />
+    </head>
+
+    <body class={styles.body[0]} style={styles.body[1]}>
+        <BackgroundLines linesColor={personData.bgDecoration?.linesColor ?? { pc: personData.theme.primaryColor, cel: personData.theme.primaryColor }} />
+
+        <Container contentSpace="centered">
+            <div class="card">
+                <MainPhoto personData={personData} className="photo">
+                    <MusicPlayerFrame
+                        personData={personData}
+                        songs={personData.songList ?? undefined}
+                        targetClass="photo"
+                    />
+                </MainPhoto>
+
+                <div class="content text-center max-lg:w-full">
+                    <h1
+                        class="name"
+                        style="font-size: clamp(1.92rem, 4vw, 3.5rem); font-weight: 750; margin: 1rem auto 1rem;"
+                        transition:name="name"
+                        transition:animate="slide"
+                    >
+                        <span style="display: block;">{personData.firstName}</span>
+                        <span style="display: block;">{personData.lastName}</span>
+                    </h1>
+
+                    <p
+                        class="subtitle mb-8"
+                        style={`color: var(--theme-primary-color); font-size: 1.2rem; margin: 0 auto 2rem;`}
+                        transition:name="subtitle"
+                        transition:animate="none"
+                    >
+                        ¡Felicidades, has sobrevivido!
+                    </p>
+                    <LifeCount personData={personData} size="mid" />
+
+                    <TypewrittingEffect
+                        phrases={personData.phrases ?? []}
+                        fixedText="Eres "
+                        color={personData.theme.primaryColor}
+                    />
+                </div>
+            </div>
+        </Container>
+
+        <Author />
+
+        <Confetti confettiColors={personData.theme.complementaryColor} />
+    </body>
+</html>
+
+<style is:global>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Inter, system-ui, sans-serif;
+    }
+
+    h2 {
+        font-weight: 650;
+        margin-bottom: 0.5rem;
+    }
+
+    .card {
+        display: flex;
+        align-items: center;
+        gap: 4rem;
+        z-index: 2;
+    }
+
+    @view-transition {
+        navigation: auto;
+    }
+
+    @media (max-width: 900px) {
+        .card {
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+            margin-top: 2rem;
+        }
+    }
+</style>

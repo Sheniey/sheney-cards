@@ -1,0 +1,146 @@
+---
+import { getPhotoURL } from "@/config/media";
+import type { PersonBirthdayData } from "@/types";
+
+export interface PhotoVentoGridProps {
+    personData: PersonBirthdayData;
+    title?: string;
+    titleColor?: string;
+}
+
+const { personData, title = "Album de recuerdos", titleColor } =
+    Astro.props as PhotoVentoGridProps;
+
+const photos = personData.extraPhotos ? Object.values(personData.extraPhotos) : [];
+
+const CSSVarColors = `
+    --border-color1: ${personData.theme.primaryColor};
+    --border-color2: ${personData.theme.secondaryColor};
+`;
+---
+
+{
+    photos.length > 0 && (
+        <section
+            class="vento-section timeline-view animate-fade-in-up lg:animate-range-[entry_5%_contain_40%] max-lg:animate-range-[entry_0%_contain_20%]"
+            style={CSSVarColors}
+            data-vento-grid
+        >
+            <h2
+                class="vento-title"
+                style={`color: ${titleColor ?? personData.theme.primaryColor};`}
+            >
+                {title}
+            </h2>
+
+            <div class="vento-grid">
+                {photos.map((photo) => (
+                    <figure class="vento-item" data-vento-item>
+                        <img
+                            class="vento-photo"
+                            src={getPhotoURL(personData.nameId, photo.title)}
+                            alt={photo.alt}
+                            loading="lazy"
+                            style={photo.style ?? ""}
+                            onerror="const item = this.closest('[data-vento-item]'); item?.remove(); const section = this.closest('[data-vento-grid]'); if (section && section.querySelectorAll('[data-vento-item]').length === 0) { section.remove(); }"
+                        />
+                    </figure>
+                ))}
+            </div>
+        </section>
+    )
+}
+
+<style>
+    .vento-section {
+        width: min(100%, 980px);
+        margin: 2rem auto;
+        padding-inline: 0.5rem;
+    }
+
+    .vento-title {
+        text-align: center;
+        font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        margin-bottom: 2rem;
+    }
+
+    .vento-grid {
+        columns: 3;
+        /* grid-template-columns: repeat(3, minmax(0, 1fr)); */
+        /* align-items: center;
+        justify-items: center; */
+        column-gap: 0.95rem;
+    }
+
+    .vento-item {
+        position: relative;
+        break-inside: avoid;
+        margin-bottom: 1rem;
+        width: 100%;
+        max-width: 260px;
+        padding: 5px; /* Border Size */
+        border-radius: 12px;
+        background: conic-gradient(
+            from var(--angle),
+            var(--border-color2, #ff69b4),
+            transparent,
+            var(--border-color1, #ff1493),
+            transparent
+        );
+        animation: spin 3s linear infinite;
+    }
+
+    @property --angle {
+        syntax: "<angle>";
+        inherits: false;
+        initial-value: 0deg;
+    }
+
+    .vento-item::before {
+        filter: blur(1rem);
+        opacity: 0.5;
+    }
+
+    @keyframes spin {
+        from {
+            --angle: 0deg;
+        }
+        to {
+            --angle: 360deg;
+        }
+    }
+
+    .vento-photo {
+        display: block;
+        width: 100%;
+
+        border-radius: 10px;
+    }
+
+    @media (max-width: 980px) {
+        .vento-grid {
+            column-count: 2;
+        }
+
+        .vento-item {
+            max-width: 240px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .vento-grid {
+            column-count: 1;
+        }
+
+        .vento-item {
+            max-width: 310px;
+            padding: 7px;
+
+            &::before {
+                filter: blur(2rem);
+            }
+        }
+    }
+</style>

@@ -1,0 +1,41 @@
+
+
+---
+import { SITE } from '@/config/site';
+
+export interface AuthorProps {
+    label?: string;
+}
+
+const { label = 'CON CARIÑO POR: ' } = Astro.props as AuthorProps;
+const authorName = SITE.authorFirstName.toUpperCase();
+---
+
+<div class="author">
+    {label}
+    <a href={SITE.authorIg} target="_blank" rel="noopener noreferrer">
+        {authorName}
+    </a>
+</div>
+
+<style>
+    .author {
+        position: fixed;
+        bottom: 0.8rem;
+        width: 100%;
+        text-align: right;
+        padding-right: 1rem;
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 0.7rem;
+    }
+
+    @media (max-width: 900px) {
+        .author {
+            position: static;
+            text-align: center;
+            margin-top: 6rem;
+            margin-bottom: 2rem;
+            font-size: 0.8rem;
+        }
+    }
+</style>

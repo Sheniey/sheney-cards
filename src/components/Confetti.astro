@@ -1,0 +1,40 @@
+---
+export interface ConfettiProps {
+    confettiColors: string[] | null;
+}
+const { confettiColors = null } = Astro.props as ConfettiProps;
+const serializedConfettiColors =
+    Array.isArray(confettiColors) && confettiColors.length > 0
+        ? confettiColors.join(",")
+        : "";
+---
+
+<div data-confetti-colors={serializedConfettiColors} hidden aria-hidden="true"></div>
+
+<script>
+    import { launchBirthdayConfetti } from "@/scripts/confetti";
+
+    function launchPendingConfetti() {
+        const confettiConfigNodes =
+            document.querySelectorAll<HTMLElement>("[data-confetti-colors]");
+
+        confettiConfigNodes.forEach((node) => {
+            if (node.dataset.confettiPlayed === "true") {
+                return;
+            }
+
+            node.dataset.confettiPlayed = "true";
+
+            const colorsAttr = node.dataset.confettiColors ?? "";
+            const colors =
+                colorsAttr.length > 0
+                    ? colorsAttr.split(",").filter((color) => color.length > 0)
+                    : null;
+
+            launchBirthdayConfetti(colors);
+        });
+    }
+
+    launchPendingConfetti();
+    document.addEventListener("astro:page-load", launchPendingConfetti);
+</script>

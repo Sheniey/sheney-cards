@@ -1,0 +1,81 @@
+---
+export interface CitaProps {
+    mensaje: string;
+    author: string;
+}
+
+const { mensaje, author } = Astro.props as CitaProps;
+---
+
+<figure class="cita-wrap">
+    <blockquote class="cita">
+        <span class="qmark" id="qmark-open">"</span>
+        <span class="texto">{mensaje}</span>
+        <span class="qmark" id="qmark-close">"</span>
+    </blockquote>
+    <figcaption class="cita-author">— {author}</figcaption>
+</figure>
+
+<style>
+    .cita-wrap {
+        position: relative;
+        margin: 1rem auto 1rem;
+        width: max(17ch, 100%);
+        padding: 1rem 1.15rem 0.9rem;
+        border-radius: 22px;
+        border: 1px solid var(--cita-border-color, #11111124);
+        background: var(--cita-wrap-color, #d59cf6);
+        box-shadow:
+            0 14px 30px var(--cita-shadow1-color, #00000047),
+            0 2px 10px var(--cita-shadow2-color, #0000001f);
+    }
+
+    .cita {
+        margin: 0;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        gap: 0.2rem;
+        text-align: center;
+        color: var(--theme-primary-color, #101010);
+        font-family: "Times New Roman", Times, serif;
+        font-size: clamp(1.08rem, 2.2vw, 1.8rem);
+        line-height: 1.5;
+        letter-spacing: 0.15px;
+    }
+
+    .texto {
+        text-wrap: balance;
+    }
+
+    .qmark {
+        color: var(--cita-qmark-color, #101010);
+        position: absolute;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 0.9;
+        font-weight: 700;
+        opacity: 0.95;
+    }
+
+    #qmark-open {
+        top: -0.4rem;
+        left: -0.1rem;
+    }
+
+    #qmark-close {
+        bottom: -0.4rem;
+        right: -0.1rem;
+        transform: rotate(180deg);
+    }
+
+    .cita-author {
+        margin-top: 0.45rem;
+        text-align: right;
+        color: var(--theme-primary-color, #202020);
+        font-size: clamp(0.84rem, 1.8vw, 1rem);
+        font-weight: 650;
+        letter-spacing: 0.4px;
+        opacity: 0.9;
+    }
+</style>

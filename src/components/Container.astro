@@ -1,0 +1,24 @@
+---
+import '@/styles/global.css';
+
+export interface ContainerProps {
+    contentSpace: 'full' | 'centered';
+}
+const { contentSpace = 'centered' } = Astro.props as ContainerProps
+
+const containerStyles = {
+    full: 'min-h-screen flex justify-start items-start p-8',
+    centered: 'min-h-screen flex justify-center items-center p-8',
+}
+
+---
+
+<main class={`container ${containerStyles[contentSpace]} gap-8 w-full max-lg:px-4 max-lg:py-8`}>
+    <slot />
+</main>
+
+<style>
+    .container {
+        gap: 2rem;
+    }
+</style>

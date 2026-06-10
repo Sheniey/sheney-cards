@@ -1,0 +1,29 @@
+---
+import Banner from '@/layouts/Banner.astro';
+import { getBirthdayData, getBirthdayNames } from '@/data/birthdays';
+import * as site from '@/config/site';
+
+export function getStaticPaths() {
+    return getBirthdayNames().map(name => ({
+        params: { name },
+    }));
+}
+
+export interface BirthdayPageParams {
+    name: string;
+}
+const { name } = Astro.params;
+let personData;
+try {
+    personData = getBirthdayData(name);
+} catch (error) {
+    return new Response(null, {
+        status: 404,
+        headers: {
+            Location: '/404',
+        },
+    });
+}
+---
+
+<Banner personData={personData} />

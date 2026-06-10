@@ -1,0 +1,183 @@
+---
+import "@/styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import { SITE } from "@/config/site";
+
+import Author from "@/components/Author.astro";
+import BackgroundLines from "@/components/BackgroundLines.astro";
+import Container from "@/components/Container.astro";
+
+const theme = {
+    backgroundColor: "#050505",
+    primaryColor: "#ff4fa3",
+    secondaryColor: "#ffffff",
+};
+
+const bodyStyles = `
+    color: ${theme.secondaryColor};
+    background: ${theme.backgroundColor};
+    --theme-primary-color: ${theme.primaryColor};
+    --theme-secondary-color: ${theme.secondaryColor};
+`;
+---
+
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="La página que buscas no existe. Regresa a la tarjeta de cumpleaños."
+        />
+        <meta name="author" content={SITE.authorPseudonym} />
+        <meta name="theme-color" content={theme.primaryColor} />
+
+        <title>404 | Página no encontrada</title>
+        <link rel="icon" href={SITE.favicon} type={SITE.faviconType} />
+
+        <ClientRouter />
+    </head>
+
+    <body class="min-h-screen relative overflow-x-hidden" style={bodyStyles}>
+        <BackgroundLines linesColor={{ pc: theme.primaryColor, cel: theme.primaryColor }} />
+
+        <Container contentSpace="centered">
+            <section class="error-card text-center">
+                <p class="error-code">404</p>
+                <h1 class="error-title">Página no encontrada</h1>
+                <p class="error-message">
+                    Parece que esta dedicatoria se perdió entre los confetis.
+                </p>
+
+                <div class="actions">
+                    <a href="/birthday/leydy" class="btn btn-primary">
+                        Ir a la tarjeta principal
+                    </a>
+                    <a href="/" class="btn btn-ghost">
+                        Volver al inicio
+                    </a>
+                </div>
+            </section>
+        </Container>
+
+        <Author />
+    </body>
+</html>
+
+<style is:global>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Inter, system-ui, sans-serif;
+    }
+
+    .error-card {
+        width: min(100%, 720px);
+        padding: clamp(2rem, 4vw, 3rem);
+        border-radius: 2rem;
+        background: linear-gradient(
+            145deg,
+            color-mix(in srgb, var(--theme-primary-color) 16%, transparent),
+            color-mix(in srgb, var(--theme-primary-color) 4%, transparent)
+        );
+        border: 1px solid color-mix(in srgb, var(--theme-primary-color) 30%, transparent);
+        backdrop-filter: blur(6px);
+        box-shadow:
+            0 24px 48px rgba(0, 0, 0, 0.35),
+            0 0 44px color-mix(in srgb, var(--theme-primary-color) 28%, transparent);
+        z-index: 2;
+    }
+
+    .error-code {
+        font-size: clamp(4rem, 14vw, 8rem);
+        line-height: 1;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        color: var(--theme-primary-color);
+        text-shadow:
+            0 0 20px color-mix(in srgb, var(--theme-primary-color) 60%, transparent),
+            0 0 36px color-mix(in srgb, var(--theme-primary-color) 35%, transparent);
+    }
+
+    .error-title {
+        margin-top: 0.8rem;
+        font-size: clamp(1.7rem, 4vw, 2.6rem);
+        font-weight: 750;
+        color: var(--theme-secondary-color);
+    }
+
+    .error-message {
+        margin: 1rem auto 0;
+        max-width: 52ch;
+        color: color-mix(in srgb, var(--theme-secondary-color) 84%, transparent);
+        font-size: clamp(1rem, 2.5vw, 1.15rem);
+    }
+
+    .actions {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.7rem 1.2rem;
+        border-radius: 999px;
+        font-weight: 650;
+        text-decoration: none;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease,
+            color 0.2s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .btn-primary {
+        background: var(--theme-primary-color);
+        color: #0b0b0b;
+        box-shadow: 0 12px 24px color-mix(in srgb, var(--theme-primary-color) 44%, transparent);
+    }
+
+    .btn-primary:hover {
+        box-shadow: 0 16px 30px color-mix(in srgb, var(--theme-primary-color) 52%, transparent);
+    }
+
+    .btn-ghost {
+        border: 1px solid color-mix(in srgb, var(--theme-secondary-color) 38%, transparent);
+        color: var(--theme-secondary-color);
+        background: color-mix(in srgb, var(--theme-secondary-color) 8%, transparent);
+    }
+
+    .btn-ghost:hover {
+        background: color-mix(in srgb, var(--theme-secondary-color) 15%, transparent);
+    }
+
+    @media (max-width: 900px) {
+        .error-card {
+            border-radius: 1.4rem;
+            padding: 2rem 1.2rem;
+        }
+
+        .actions {
+            flex-direction: column;
+            width: min(100%, 360px);
+            margin-inline: auto;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+</style>

@@ -1,0 +1,8 @@
+---
+import Album from '@/layouts/Album.astro';
+import { getBirthdayData } from '@/data/birthdays';
+
+const leydyData = getBirthdayData('leydy');
+---
+
+<Album personData={leydyData} />
