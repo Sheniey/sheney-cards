@@ -66,7 +66,7 @@ const styles: Record<string, [string, string]> = {
             <section class="subtitles" style={`color: var(--theme-primary-color);`}>
                 <h2 class="subtitle main-subtitle">
                     <span>MISSION</span>
-                    <span>Cumpleaños</span>
+                    <span>"Un Cumpleaños Cifrado"</span>
                 </h2>
                 <h2 class="subtitle main-subtitle">
                     <span>TARGET</span>
@@ -74,7 +74,7 @@ const styles: Record<string, [string, string]> = {
                 </h2>
                 <h2 class="subtitle main-subtitle">
                     <span>OBJECTIVE</span>
-                    <span>Desbloquear la carta de felicitación de {personData.profile.firstName} {personData.profile.lastName}.</span>
+                    <span>Desbloquear la carta de felicitación de {personData.profile.firstName} {personData.profile.lastName} encontrando la contraseña dentro de las cartas.</span>
                 </h2>
             </section>
 
@@ -125,6 +125,9 @@ const styles: Record<string, [string, string]> = {
                             />
                         </section>
                     </article>
+                    <Confetti
+                        confettiColors={personData.appearance.theme.complementaryColor}
+                    />
                 </WindowModal>
 
                 <WindowModal
@@ -143,17 +146,17 @@ const styles: Record<string, [string, string]> = {
                         <SimplyTerminalCmd
                             ident={0}
                             mark=">"
-                            command={'SQL.run(SELECT status, password FROM Target.name) as KareliDB::UserModels;'}
+                            command={`SQL.run(SELECT status, password FROM Target.name) as ${personData.profile.name}DB::UserModels;`}
                         />
                         <SimplyTerminalCmd
                             ident={1}
                             mark=":"
-                            command={`Target Status --- <Neutralized> x]`}
+                            command={`Estado del Objetivo --- Neutralizado x]`}
                         />
                         <SimplyTerminalCmd
                             ident={1}
                             mark=":"
-                            command={`Password Detected --- <${password}> :o`}
+                            command={`Contraseña Detectada --- ${password} :o`}
                         />
                         <SimplyTerminalCmd
                             ident={1}
@@ -245,6 +248,7 @@ const styles: Record<string, [string, string]> = {
     .main-subtitle {
         display: flex;
         flex-direction: column;
+        align-items: center;
         width: 100%;
         margin: 0;
         padding: 0.9rem 1.1rem;
@@ -264,6 +268,7 @@ const styles: Record<string, [string, string]> = {
         font-weight: 700;
         letter-spacing: 0.03em;
         line-height: 1.45;
+        text-align: center;
         text-wrap: balance;
         text-shadow: 0 0 10px color-mix(in srgb, var(--theme-primary-color) 24%, transparent);
         box-shadow:
@@ -283,7 +288,9 @@ const styles: Record<string, [string, string]> = {
     }
 
     .main-subtitle span {
-        align-self: center;
+        display: block;
+        width: 100%;
+        text-align: center;
     }
     
     .main-subtitle span:first-child {
@@ -304,8 +311,12 @@ const styles: Record<string, [string, string]> = {
         grid-template-columns: minmax(240px, 310px) minmax(0, 1fr);
         align-items: center;
         gap: clamp(1rem, 2vw, 2rem);
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
         border-radius: 1rem;
         padding: clamp(0.8rem, 2.5vw, 1.4rem);
+        overflow: hidden;
         border: 1px solid color-mix(in srgb, var(--theme-primary-color) 30%, transparent);
         background:
             radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--theme-primary-color) 18%, transparent), transparent 58%),
@@ -329,6 +340,7 @@ const styles: Record<string, [string, string]> = {
         flex-direction: column;
         align-items: flex-start;
         width: 100%;
+        min-width: 0;
     }
 
     .mvp-subtitle {
@@ -343,8 +355,10 @@ const styles: Record<string, [string, string]> = {
     .mvp-description {
         margin: 0 0 0.6rem;
         max-width: 58ch;
+        width: 100%;
         font-size: clamp(0.95rem, 1.8vw, 1.05rem);
         line-height: 1.55;
+        overflow-wrap: anywhere;
         color: color-mix(in srgb, var(--theme-secondary-color) 85%, #fff 15%);
     }
 
@@ -360,9 +374,12 @@ const styles: Record<string, [string, string]> = {
 
     .mvp-content .typewriter-effect.mvp-typewriter {
         margin: 0.3rem 0 0;
+        max-width: 100%;
+        min-width: 0;
         font-size: clamp(1rem, 2vw, 1.45rem);
         line-height: 1.4;
         text-align: left;
+        overflow-wrap: anywhere;
     }
 
     @media (max-width: 900px) {

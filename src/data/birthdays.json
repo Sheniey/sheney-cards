@@ -206,7 +206,7 @@
             "website": null
         },
         "content": {
-            "password": "kareli2010*",
+            "password": "kareli2010",
             "message": "Felicitaciones Kareli, .",
             "quotes": [],
             "phrases": [
@@ -244,12 +244,13 @@
             "mafia": {
                 "mvp": {
                     "title": "kareli-wanted.webp",
+                    "summary": null,
                     "alt": "Simplemente una Foto de Kareli.",
                     "type": "image/webp",
                     "style": "",
                     "status": "alive",
                     "wantedPerson": "Kareli Ruíz",
-                    "occupation": "Be awesome!!",
+                    "occupation": "Ser increíble!!",
                     "age": 16,
                     "importance_lvl": 5,
                     "villainColor": "#90e0ef"
@@ -257,13 +258,13 @@
                 "common": [
                     {
                         "title": "evelyn-wanted.webp",
-                        "summary": "s",
+                        "summary": null,
                         "alt": "Simplemente una Foto de Evelyn.",
                         "type": "image/webp",
                         "style": "",
                         "status": "dead",
                         "wantedPerson": "Eveneitor",
-                        "occupation": "Serial Assassin",
+                        "occupation": "Asesina Serial",
                         "age": 16,
                         "importance_lvl": 3,
                         "villainColor": "#ffcdd4"
@@ -276,7 +277,7 @@
                         "style": "",
                         "status": "dead",
                         "wantedPerson": "Sheñey",
-                        "occupation": "Heavy Hacker",
+                        "occupation": "Hacker Pesado",
                         "age": null,
                         "importance_lvl": 4,
                         "villainColor": "#fcefb4"

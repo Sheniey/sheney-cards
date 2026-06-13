@@ -93,7 +93,7 @@ const baseVillains = [
     },
     ...mafiaData.common.map((person, index) => ({
         id: `common-${index}`,
-        wantedPerson: person.wantedPerson ?? '<Anonymous>',
+        wantedPerson: person.wantedPerson ?? '<Anónimo>',
         status: person.status,
         src: getPersonPhotoURL(mafiaMVPerson.id, person.title),
         alt: person.alt,
@@ -126,6 +126,10 @@ const cssVars = {
     '--mafia-alive': palette.alive ?? '#2adf7f',
     '--mafia-dead': palette.dead ?? '#ff3a3a',
     '--mafia-shadow': palette.shadow ?? 'rgba(76, 132, 255, 0.35)',
+};
+
+const normalizeStatus = (status: MafiaStatus): string => {
+    return status.toLowerCase() === 'alive' ? 'vivo' : 'muerto';
 };
 ---
 
@@ -164,8 +168,8 @@ const cssVars = {
                         />
 
                         <div class="stadistics">
-                            <span class="status-tag">STATUS: <span class={`status-tag-value status-tag__${villain.status}`}>{villain.status.toUpperCase()}</span></span>
-                            <span class="importance-tag">IMPORTANCE: <span class={`importance-tag-value importance-tag__${villain.importance[1]}`}>{villain.importance[0].split('☆').join('')}</span></span>
+                            <span class="status-tag">ESTADO: <span class={`status-tag-value status-tag__${villain.status}`}>{normalizeStatus(villain.status).toUpperCase()}</span></span>
+                            <span class="importance-tag">IMPORTANCIA: <span class={`importance-tag-value importance-tag__${villain.importance[1]}`}>{villain.importance[0].split('☆').join('')}</span></span>
                         </div>
                     </div>
 
@@ -174,13 +178,13 @@ const cssVars = {
                         <div class="villain-data">
                             <LikeTerminalCmd
                                 command={`getAgeOf(${villain.wantedPerson})`}
-                                output={villain.age !== null ? `Current Age: ${villain.age}` : 'Current Age: <Unknown>'}
+                                output={villain.age !== null ? `Edad Actual: ${villain.age}` : 'Edad Actual: <Desconocida>'}
                                 dtype={villain.age !== null ? 'number' : 'null'}
                                 className="villain-age"
                             />
                             <LikeTerminalCmd
                                 command={`getAccusationOf(${villain.wantedPerson})`}
-                                output={`Accused of: ${villain.occupation}`}
+                                output={`Acusado de: ${villain.occupation}`}
                                 dtype="string"
                                 className="villain-accusations"
                             />

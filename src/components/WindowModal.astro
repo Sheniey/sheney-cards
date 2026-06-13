@@ -69,7 +69,7 @@ const passwordStorageKey = `window-modal-unlocked:${id}`;
                 <section class="window-lock" data-window-lock>
                     <h3>Acceso restringido</h3>
                     <p>Introduce la contraseña para ver el contenido.</p>
-                    <p id="note">NOTA: Por nada del mundo se te ocurra ir a otra ventana. *guiño* *guiño*</p>
+                    <p id="note">NOTA: Por nada del mundo se te ocurra ir a ver otro villano. *guiño* *guiño* :b</p>
                     <form class="window-lock-form" data-window-password-form>
                         <input
                             class="window-lock-input"
@@ -92,6 +92,7 @@ const passwordStorageKey = `window-modal-unlocked:${id}`;
 }
 
 <script define:vars={{ id, title, needPassword, password, passwordStorageKey }} is:inline>
+    localStorage.setItem(passwordStorageKey, 'false');
     const feedbackDialogues = [
         "La inteligencia te persigue, pero tú siempre encuentras la forma de escapar.",
         "Esa contraseña estaba tan lejos de la correcta que ya solicitó ciudadanía en otro país.",
@@ -155,7 +156,6 @@ const passwordStorageKey = `window-modal-unlocked:${id}`;
             };
 
             if (localStorage.getItem(passwordStorageKey) === 'true') {
-                localStorage.setItem('server-was-pwned', 'true');
                 unlockModal();
             }
 
@@ -251,7 +251,8 @@ SÍSTEMA HACKEADO!! ADVERTENCIA: AHORA TIENES ACCESO DE ADMINISTRADOR, procede c
         margin-top: 50px;
         padding: 1rem;
         max-height: min(74vh, 900px);
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         background: var(--window-bg);
         color: var(--window-text);
     }
