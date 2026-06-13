@@ -229,7 +229,7 @@
                 ]
             },
             "decorations": {
-                "linesColor": "#90e0ef"
+                "strangeBgColor": { "cel": "#90e0ef", "pc": "#48cae4" }
             }
         },
         "media": {

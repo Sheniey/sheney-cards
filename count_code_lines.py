@@ -48,7 +48,6 @@ def log_results() -> None:
         console.print(f'[red]{file_type.value}[/red] [green]lineas:[/green] [yellow]{type_lines} lineas[/yellow]')
     console.print()
 
-# kareli is next :3 | let's resolve the puzzle
 def main() -> None:
     extract_lines()
     log_results()

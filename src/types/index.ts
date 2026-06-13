@@ -60,6 +60,7 @@ export type ThemeConfig = {
 export type DecorationConfig = {
     linesColor?: ResponsiveColor | string;
     heartsColor?: ResponsiveColor | string;
+    strangeBgColor?: ResponsiveColor | string;
 };
 
 export interface PersonBirthdayData {

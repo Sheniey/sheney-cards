@@ -34,8 +34,12 @@ const {
 } = Astro.props as WindowModalProps;
 
 const cssVars = {
-    "--window-border": palette.borderColor ?? "#7edce6",
+    "--window-border": "#278d57",
+    "--window-border-locked": "#278d57",
+    "--window-border-unlocked": palette.borderColor ?? "#7edce6",
     "--window-glow": palette.glowColor ?? `${palette.borderColor ?? "#7edce6"}99`,
+    "--window-title-locked": "#278d57",
+    "--window-title-unlocked": palette.borderColor ?? "#7edce6",
     "--window-toolbar-bg": palette.toolbarBackground ?? "#050505",
     "--window-bg": palette.windowBackground ?? "#ffffff",
     "--window-text": palette.contentColor ?? "#0f172a",
@@ -49,6 +53,7 @@ const passwordStorageKey = `window-modal-unlocked:${id}`;
         id={id}
         class={`window-modal ${classModal}`.trim()}
         style={cssVars}
+        data-unlocked={needPassword ? "false" : "true"}
         closedby="any"
     >
         <div class="window-toolbar">
@@ -92,6 +97,7 @@ const passwordStorageKey = `window-modal-unlocked:${id}`;
 }
 
 <script define:vars={{ id, title, needPassword, password, passwordStorageKey }} is:inline>
+    localStorage.setItem(passwordStorageKey, 'false');
     const feedbackDialogues = [
         "La inteligencia te persigue, pero tú siempre encuentras la forma de escapar.",
         "Esa contraseña estaba tan lejos de la correcta que ya solicitó ciudadanía en otro país.",
@@ -141,6 +147,7 @@ const passwordStorageKey = `window-modal-unlocked:${id}`;
             const unlockModal = () => {
                 lockSection.hidden = true;
                 slotContent.hidden = false;
+                modalElement.setAttribute('data-unlocked', 'true');
                 if (passwordInput instanceof HTMLInputElement) {
                     passwordInput.value = '';
                 }
@@ -198,7 +205,7 @@ SÍSTEMA HACKEADO!! ADVERTENCIA: AHORA TIENES ACCESO DE ADMINISTRADOR, procede c
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        border: 3px solid var(--window-border);
+        border: 3px solid var(--window-border-locked);
         border-radius: 14px;
         padding: 0;
         background: var(--window-bg);
@@ -230,7 +237,15 @@ SÍSTEMA HACKEADO!! ADVERTENCIA: AHORA TIENES ACCESO DE ADMINISTRADOR, procede c
         left: 1rem;
         font-weight: 800;
         font-size: 0.95rem;
-        color: var(--window-text);
+        color: var(--window-title-locked);
+    }
+
+    .window-modal[data-unlocked="true"] {
+        border-color: var(--window-border-unlocked);
+    }
+
+    .window-modal[data-unlocked="true"] .window-title {
+        color: var(--window-title-unlocked);
     }
 
     .window-close {

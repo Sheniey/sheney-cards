@@ -1,0 +1,80 @@
+---
+import "@/styles/global.css";
+import BoneIcon from "@/assets/icons/bone.svg";
+import PetPawIcon from "@/assets/icons/pet-paw.svg";
+import SealIcon from "@/assets/icons/seal.svg";
+import WineIcon from "@/assets/icons/wine.svg";
+
+export interface BackgroundStrangeProps {
+    itemsColor?: string;
+}
+const { itemsColor } = Astro.props as BackgroundStrangeProps;
+---
+
+<div class="background-strange" style={`--bg-items-color: ${itemsColor}`} aria-hidden="true">
+    <BoneIcon class="strange-icon s1" />
+    <PetPawIcon class="strange-icon s2" />
+    <WineIcon class="strange-icon s3" />
+    <SealIcon class="strange-icon s4" />
+    <BoneIcon class="strange-icon s5" />
+    <WineIcon class="strange-icon s6" />
+    <PetPawIcon class="strange-icon s7" />
+    <BoneIcon class="strange-icon s8" />
+    <SealIcon class="strange-icon s9" />
+    <PetPawIcon class="strange-icon s10" />
+    <WineIcon class="strange-icon s11" />
+    <BoneIcon class="strange-icon s12" />
+    <PetPawIcon class="strange-icon s13" />
+    <WineIcon class="strange-icon s14" />
+</div>
+
+<style>
+    .background-strange {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .strange-icon {
+        position: absolute;
+        width: 34px;
+        height: 34px;
+        opacity: 0.18;
+        filter: blur(0.3px);
+        transform-origin: center;
+    }
+
+    .strange-icon :global(path),
+    .strange-icon :global(.st0),
+    .strange-icon :global(.st1) {
+        fill: var(--bg-items-color);
+        stroke: var(--bg-items-color);
+    }
+
+    .s1 { top: 5%; left: 9%; transform: rotate(-21deg) scale(1.2); }
+    .s2 { top: 13%; right: 7%; transform: rotate(29deg) scale(1.45); }
+    .s3 { top: 19%; left: 44%; transform: rotate(-13deg) scale(1.25); }
+    .s4 { top: 26%; left: 18%; transform: rotate(16deg) scale(1.15); }
+    .s5 { top: 32%; right: 24%; transform: rotate(-34deg) scale(1.7); }
+    .s6 { top: 41%; left: 5%; transform: rotate(23deg) scale(1.05); }
+    .s7 { top: 47%; right: 5%; transform: rotate(-9deg) scale(1.5); }
+    .s8 { top: 58%; left: 36%; transform: rotate(11deg) scale(1.35); }
+    .s9 { top: 61%; right: 33%; transform: rotate(-25deg) scale(1.2); }
+    .s10 { bottom: 26%; left: 13%; transform: rotate(33deg) scale(1.15); }
+    .s11 { bottom: 21%; right: 14%; transform: rotate(-17deg) scale(1.55); }
+    .s12 { bottom: 13%; left: 55%; transform: rotate(7deg) scale(1.85); }
+    .s13 { bottom: 9%; right: 38%; transform: rotate(-31deg) scale(1.2); }
+    .s14 { bottom: 5%; right: 8%; transform: rotate(18deg) scale(1.05); }
+
+    @media (max-width: 900px) {
+        .strange-icon {
+            width: 28px;
+            height: 28px;
+            opacity: 0.14;
+        }
+
+        .s12 { bottom: 17%; left: 30%; transform: rotate(7deg) scale(1.5); }
+    }
+</style>

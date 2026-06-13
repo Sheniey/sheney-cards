@@ -4,6 +4,7 @@ import { ClientRouter } from "astro:transitions";
 import type { PersonBirthdayData } from "@/types";
 
 import Metadata from "@/components/Metadata.astro";
+import BackgroundStrange from "@/components/BackgroundStrange.astro";
 import MafiaCaroucel from "@/components/MafiaCaroucel.astro";
 import WindowModal from "@/components/WindowModal.astro";
 import MainPhoto from "@/components/MainPhoto.astro";
@@ -59,6 +60,8 @@ const styles: Record<string, [string, string]> = {
     </head>
 
     <body class={styles.body[0]} style={styles.body[1]}>
+        <BackgroundStrange itemsColor={personData.appearance.decorations?.strangeBgColor ?? { cel: personData.appearance.theme.primaryColor, pc: personData.appearance.theme.secondaryColor }} />
+
         <main class="container">
             <section class="title">
                 <h1>{personData.profile.name}'s Files</h1>
@@ -97,7 +100,7 @@ const styles: Record<string, [string, string]> = {
                     title={`${personData.profile.name}'s Secrets`}
                     password={password}
                     palette={{
-                        borderColor: `#278d57`,
+                        borderColor: personData.appearance.theme.primaryColor,
                         glowColor: `${personData.appearance.theme.primaryColor}8c`,
                         contentColor: `#278d57`,
                         toolbarBackground: personData.appearance.theme.backgroundColor,
@@ -125,6 +128,7 @@ const styles: Record<string, [string, string]> = {
                             />
                         </section>
                     </article>
+
                     <Confetti
                         confettiColors={personData.appearance.theme.complementaryColor}
                     />
@@ -135,7 +139,7 @@ const styles: Record<string, [string, string]> = {
                     id="mafia-common-modal"
                     title='<Terminal>'
                     palette={{
-                        borderColor: `#278d57`,
+                        borderColor: personData.appearance.theme.primaryColor,
                         glowColor: `${personData.appearance.theme.primaryColor}8c`,
                         contentColor: `#278d57`,
                         toolbarBackground: personData.appearance.theme.backgroundColor,
@@ -298,12 +302,7 @@ const styles: Record<string, [string, string]> = {
     }
     
     .mvp-modal {
-        border-color: var(--theme-primary-color) !important;
         overflow: hidden;
-    }
-
-    .mvp-title {
-        color: var(--theme-primary-color) !important;
     }
 
     .mvp-dossier {
