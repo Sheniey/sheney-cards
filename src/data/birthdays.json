@@ -207,7 +207,7 @@
         },
         "content": {
             "password": "kareli2010",
-            "message": "Quizás no te agrade del todo la estética de hackerar y cyberpunk, me arrepentí despues; anyway, japi verdei Kareli Ruíz.",
+            "message": "Quizás no te agrade del todo la estética de hackerar y cyberpunk, me arrepentí despues; anyway, japi verdei Kareli Ruíz. :D",
             "quotes": [],
             "phrases": [
                 "divertida... xD",
@@ -240,7 +240,14 @@
                 "style": ""
             },
             "galleryPhotos": [],
-            "songs": [],
+            "songs": [
+                {
+                    "title": "CIA - Narco",
+                    "filename": "cia.mp3",
+                    "alt": "Canción de suspenso CIA por la película Narcos.",
+                    "type": "audio/mpeg"
+                }
+            ],
             "mafia": {
                 "mvp": {
                     "title": "kareli-wanted.webp",

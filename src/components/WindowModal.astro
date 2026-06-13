@@ -97,7 +97,6 @@ const passwordStorageKey = `window-modal-unlocked:${id}`;
 }
 
 <script define:vars={{ id, title, needPassword, password, passwordStorageKey }} is:inline>
-    localStorage.setItem(passwordStorageKey, 'false');
     const feedbackDialogues = [
         "La inteligencia te persigue, pero tú siempre encuentras la forma de escapar.",
         "Esa contraseña estaba tan lejos de la correcta que ya solicitó ciudadanía en otro país.",
