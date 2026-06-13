@@ -60,130 +60,236 @@ const styles: Record<string, [string, string]> = {
         <ClientRouter />
     </head>
 
-    <body class={styles.body[0]} style={styles.body[1]}>
-        <BackgroundStrange itemsColor={personData.appearance.decorations?.strangeBgColor ?? { cel: personData.appearance.theme.primaryColor, pc: personData.appearance.theme.secondaryColor }} />
-
-        <audio src={media.getMusicURL(personData.media.songs?.[0].filename)} preload="metadata" autoplay loop hidden />
-
-        <main class="container">
-            <section class="title">
-                <h1>{personData.profile.name}'s Files</h1>
+    <body class={`${styles.body[0]} intro-active`} style={styles.body[1]}>
+        <div
+            id="intro-screen"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="intro-title"
+            style="
+                position: fixed;
+                inset: 0;
+                z-index: 9999;
+                display: grid;
+                place-items: center;
+                padding: clamp(1rem, 4vw, 2.5rem);
+                background: linear-gradient(135deg, rgba(4, 5, 6, 0.95) 0%, rgba(17, 20, 25, 0.96) 45%, rgba(5, 6, 8, 0.97) 100%);
+                overflow: hidden;
+            "
+        >
+            <div class="intro-spotlight" aria-hidden="true"></div>
+            <section class="intro-dossier">
+                <p class="intro-label">Top Secret • Misión Especial</p>
+                <h1 id="intro-title">Expediente Clasificado</h1>
+                <p class="intro-description">
+                    Presiona para abrir los archivos de la Mafia de {personData.media.mafia.mvp.wantedPerson}, desplegar el tablero completo y comenzar la operación.
+                </p>
+                <button
+                    id="start-btn"
+                    type="button"
+                    style="
+                        width: 100%;
+                        max-width: 360px;
+                        min-width: 0;
+                        min-height: 58px;
+                        margin-inline: auto;
+                        display: block;
+                        box-sizing: border-box;
+                        border-radius: 999px;
+                        border: 1px solid var(--theme-primary-color);
+                        background: linear-gradient(90deg, rgba(17, 26, 32, 0.92) 0%, rgba(57, 104, 124, 0.95) 50%, rgba(17, 26, 32, 0.92) 100%);
+                        color: #fff;
+                        font-size: clamp(1rem, 2vw, 1.2rem);
+                        font-weight: 700;
+                        letter-spacing: 0.06em;
+                        text-transform: uppercase;
+                        cursor: pointer;
+                    "
+                >
+                    <span>▶ Abrir expediente</span>
+                </button>
             </section>
-            <section class="subtitles" style={`color: var(--theme-primary-color);`}>
-                <h2 class="subtitle main-subtitle">
-                    <span>MISSION</span>
-                    <span>"Un Cumpleaños Cifrado"</span>
-                </h2>
-                <h2 class="subtitle main-subtitle">
-                    <span>TARGET</span>
-                    <span>Mafía de {personData.media.mafia.mvp.wantedPerson} {'>:3'}</span>
-                </h2>
-                <h2 class="subtitle main-subtitle">
-                    <span>OBJECTIVE</span>
-                    <span>Desbloquear la carta de felicitación de {personData.profile.firstName} {personData.profile.lastName} encontrando la contraseña dentro de las cartas.</span>
-                </h2>
-            </section>
+        </div>
 
-            <MafiaCaroucel
-                mafiaMVPerson={personData}
-                mafiaData={personData.media.mafia}
-                palette={{
-                    background: personData.appearance.theme.backgroundColor,
-                    text: personData.appearance.theme.primaryColor,
-                    alive: "#26de81",
-                    dead: "#ff4d4f",
-                    shadow: `${personData.appearance.theme.primaryColor}66`,
-                }}
-            >
-                <WindowModal
-                    slot="custom-mvp-modal"
-                    id="mafia-mvp-modal"
-                    classModal="mvp-modal"
-                    classTitle="mvp-title"
-                    title={`${personData.profile.name}'s Secrets`}
-                    password={password}
+        <audio
+            id="bg-music"
+            src={media.getMusicURL(personData.media.songs?.[0].filename)}
+            preload="auto"
+            loop
+            hidden
+        />
+
+        <div
+            id="mission-content"
+            style="
+                opacity: 0;
+                transform: translateY(30px) scale(0.985);
+                filter: blur(8px);
+                pointer-events: none;
+            "
+        >
+            <BackgroundStrange itemsColor={personData.appearance.decorations?.strangeBgColor ?? { cel: personData.appearance.theme.primaryColor, pc: personData.appearance.theme.secondaryColor }} />
+
+            <main class="container">
+                <section class="title">
+                    <h1>{personData.profile.name}'s Files</h1>
+                </section>
+                <section class="subtitles" style={`color: var(--theme-primary-color);`}>
+                    <h2 class="subtitle main-subtitle">
+                        <span>MISSION</span>
+                        <span>"Un Cumpleaños Cifrado"</span>
+                    </h2>
+                    <h2 class="subtitle main-subtitle">
+                        <span>TARGET</span>
+                        <span>Mafía de {personData.media.mafia.mvp.wantedPerson} {'>:3'}</span>
+                    </h2>
+                    <h2 class="subtitle main-subtitle">
+                        <span>OBJECTIVE</span>
+                        <span>Desbloquear la carta de felicitación de {personData.profile.firstName} {personData.profile.lastName} encontrando la contraseña dentro de las cartas.</span>
+                    </h2>
+                </section>
+
+                <MafiaCaroucel
+                    mafiaMVPerson={personData}
+                    mafiaData={personData.media.mafia}
                     palette={{
-                        borderColor: personData.appearance.theme.primaryColor,
-                        glowColor: `${personData.appearance.theme.primaryColor}8c`,
-                        contentColor: `#278d57`,
-                        toolbarBackground: personData.appearance.theme.backgroundColor,
-                        windowBackground: '#121212',
+                        background: personData.appearance.theme.backgroundColor,
+                        text: personData.appearance.theme.primaryColor,
+                        alive: "#26de81",
+                        dead: "#ff4d4f",
+                        shadow: `${personData.appearance.theme.primaryColor}66`,
                     }}
                 >
-                    <article class="mvp-dossier">
-                        <MainPhoto personData={personData} className="mvp-main-photo" />
+                    <WindowModal
+                        slot="custom-mvp-modal"
+                        id="mafia-mvp-modal"
+                        classModal="mvp-modal"
+                        classTitle="mvp-title"
+                        title={`${personData.profile.name}'s Secrets`}
+                        password={password}
+                        palette={{
+                            borderColor: personData.appearance.theme.primaryColor,
+                            glowColor: `${personData.appearance.theme.primaryColor}8c`,
+                            contentColor: `#278d57`,
+                            toolbarBackground: personData.appearance.theme.backgroundColor,
+                            windowBackground: '#121212',
+                        }}
+                    >
+                        <article class="mvp-dossier">
+                            <MainPhoto personData={personData} className="mvp-main-photo" />
 
-                        <section class="mvp-content">
-                            <h2 class="subtitle mvp-subtitle">
-                                ¡Felicidades, lo has conseguido!
-                            </h2>
-                            <p class="mvp-description">
-                                El objetivo fue completado con éxito. Enhorabuena ahora has sobrevivido...
-                            </p>
+                            <section class="mvp-content">
+                                <h2 class="subtitle mvp-subtitle">
+                                    ¡Felicidades, lo has conseguido!
+                                </h2>
+                                <p class="mvp-description">
+                                    El objetivo fue completado con éxito. Enhorabuena ahora has sobrevivido...
+                                </p>
 
-                            <LifeCount personData={personData} className="mvp-life-count" size="large" />
+                                <LifeCount personData={personData} className="mvp-life-count" size="large" />
 
-                            <TypewrittingEffect
-                                phrases={personData.content.phrases}
-                                fixedText="Estado: una chica "
-                                color={personData.appearance.theme.primaryColor}
-                                className="mvp-typewriter"
+                                <TypewrittingEffect
+                                    phrases={personData.content.phrases}
+                                    fixedText="Estado: una chica "
+                                    color={personData.appearance.theme.primaryColor}
+                                    className="mvp-typewriter"
+                                />
+                            </section>
+                        </article>
+
+                        <Confetti
+                            confettiColors={personData.appearance.theme.complementaryColor}
+                        />
+                    </WindowModal>
+
+                    <WindowModal
+                        slot="custom-common-modal"
+                        class="common-modal"
+                        id="mafia-common-modal"
+                        title='<Terminal>'
+                        palette={{
+                            borderColor: '#278d57',
+                            glowColor: `#278d578c`,
+                            contentColor: `#278d57`,
+                            toolbarBackground: personData.appearance.theme.backgroundColor,
+                            windowBackground: '#121212',
+                        }}
+                    >
+                        <article class="common-dossier">
+                            <SimplyTerminalCmd
+                                ident={0}
+                                mark=">"
+                                command={`SQL.run(SELECT status, password FROM Target.name) as ${personData.profile.name}DB::UserModels;`}
                             />
-                        </section>
-                    </article>
+                            <SimplyTerminalCmd
+                                ident={1}
+                                mark=":"
+                                command={`Estado del Objetivo --- Neutralizado x]`}
+                            />
+                            <SimplyTerminalCmd
+                                ident={1}
+                                mark=":"
+                                command={`Contraseña Detectada --- ${password} :o`}
+                            />
+                            <SimplyTerminalCmd
+                                ident={1}
+                                mark=";"
+                                command=''
+                            />
+                            <SimplyTerminalCmd
+                                ident={0}
+                                mark="?"
+                                command={`Siguiente Paso --- Desbloquear los Kareli's Secrets >:3`}
+                            />
+                        </article>
+                    </WindowModal>
+                </MafiaCaroucel>
+            </main>
 
-                    <Confetti
-                        confettiColors={personData.appearance.theme.complementaryColor}
-                    />
-                </WindowModal>
-
-                <WindowModal
-                    slot="custom-common-modal"
-                    class="common-modal"
-                    id="mafia-common-modal"
-                    title='<Terminal>'
-                    palette={{
-                        borderColor: '#278d57',
-                        glowColor: `#278d578c`,
-                        contentColor: `#278d57`,
-                        toolbarBackground: personData.appearance.theme.backgroundColor,
-                        windowBackground: '#121212',
-                    }}
-                >
-                    <article class="common-dossier">
-                        <SimplyTerminalCmd
-                            ident={0}
-                            mark=">"
-                            command={`SQL.run(SELECT status, password FROM Target.name) as ${personData.profile.name}DB::UserModels;`}
-                        />
-                        <SimplyTerminalCmd
-                            ident={1}
-                            mark=":"
-                            command={`Estado del Objetivo --- Neutralizado x]`}
-                        />
-                        <SimplyTerminalCmd
-                            ident={1}
-                            mark=":"
-                            command={`Contraseña Detectada --- ${password} :o`}
-                        />
-                        <SimplyTerminalCmd
-                            ident={1}
-                            mark=";"
-                            command=''
-                        />
-                        <SimplyTerminalCmd
-                            ident={0}
-                            mark="?"
-                            command={`Siguiente Paso --- Desbloquear los Kareli's Secrets >:3`}
-                        />
-                    </article>
-                </WindowModal>
-            </MafiaCaroucel>
-        </main>
-
-        <Author />
+            <Author />
+        </div>
     </body>
 </html>
+
+<script is:inline>
+    const startBtn = document.getElementById("start-btn");
+    const introScreen = document.getElementById("intro-screen");
+    const music = document.getElementById("bg-music");
+
+    if (!(startBtn instanceof HTMLButtonElement)) {
+        throw new Error("Missing #start-btn element");
+    }
+
+    if (!(introScreen instanceof HTMLDivElement)) {
+        throw new Error("Missing #intro-screen element");
+    }
+
+    if (!(music instanceof HTMLAudioElement)) {
+        throw new Error("Missing #bg-music element");
+    }
+
+    startBtn.addEventListener("click", async () => {
+        startBtn.disabled = true;
+        introScreen.classList.add("opening");
+        await music.play();
+
+        document.body.classList.add("intro-complete");
+        introScreen.classList.add("is-leaving");
+        const missionContent = document.getElementById("mission-content");
+        if (!(missionContent instanceof HTMLDivElement)) {
+            throw new Error("Missing #mission-content element");
+        }
+        missionContent.style.opacity = "1";
+        missionContent.style.transform = "translateY(0) scale(1)";
+        missionContent.style.filter = "blur(0)";
+        missionContent.style.pointerEvents = "auto";
+        missionContent.style.transition = "opacity 0.75s ease, transform 0.85s cubic-bezier(0.2, 0.72, 0.18, 1), filter 0.8s ease";
+
+        window.setTimeout(() => {
+            introScreen.setAttribute("hidden", "hidden");
+        }, 820);
+    }, { once: true });
+</script>
 
 <style is:global>
     * {
@@ -194,6 +300,164 @@ const styles: Record<string, [string, string]> = {
 
     body {
         font-family: Inter, system-ui, sans-serif;
+    }
+
+    body.intro-active {
+        overflow: hidden;
+    }
+
+    #mission-content {
+        opacity: 0;
+        transform: translateY(30px) scale(0.985);
+        filter: blur(8px);
+        pointer-events: none;
+        transition:
+            opacity 0.75s ease,
+            transform 0.85s cubic-bezier(0.2, 0.72, 0.18, 1),
+            filter 0.8s ease;
+    }
+
+    body.intro-complete {
+        overflow-y: auto;
+    }
+
+    body.intro-complete #mission-content {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+        pointer-events: auto;
+    }
+
+    #intro-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 1200;
+        display: grid;
+        place-items: center;
+        padding: clamp(1rem, 4vw, 2.5rem);
+        background:
+            radial-gradient(circle at 50% 20%, color-mix(in srgb, var(--theme-primary-color) 20%, transparent), transparent 58%),
+            linear-gradient(135deg, #040506 0%, #111419 45%, #050608 100%);
+        overflow: hidden;
+        transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
+
+    #intro-screen.is-leaving {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .intro-spotlight {
+        position: absolute;
+        inset: -25%;
+        background:
+            radial-gradient(circle, color-mix(in srgb, var(--theme-primary-color) 16%, transparent) 0%, transparent 62%);
+        animation: introSpotlightPulse 4s ease-in-out infinite;
+        pointer-events: none;
+    }
+
+    .intro-dossier {
+        position: relative;
+        width: min(960px, 100%);
+        max-width: 100%;
+        padding: clamp(1.4rem, 3.5vw, 2.8rem);
+        border-radius: clamp(14px, 2vw, 24px);
+        border: 1px solid color-mix(in srgb, var(--theme-primary-color) 38%, transparent);
+        background:
+            linear-gradient(
+                180deg,
+                color-mix(in srgb, var(--theme-primary-color) 15%, #141414 85%) 0%,
+                color-mix(in srgb, #08090a 80%, var(--theme-primary-color) 20%) 100%
+            );
+        box-shadow:
+            0 35px 80px color-mix(in srgb, #000000 72%, transparent),
+            0 0 0 1px color-mix(in srgb, var(--theme-primary-color) 18%, transparent) inset;
+        transform-origin: top center;
+        animation: dossierFloating 5.2s ease-in-out infinite;
+    }
+
+    #intro-screen.opening .intro-dossier {
+        animation: dossierOpening 0.76s cubic-bezier(0.16, 0.9, 0.21, 1) forwards;
+    }
+
+    .intro-dossier::before {
+        content: "";
+        position: absolute;
+        inset: 12px;
+        border-radius: inherit;
+        border: 1px dashed color-mix(in srgb, var(--theme-primary-color) 30%, transparent);
+        pointer-events: none;
+    }
+
+    .intro-label {
+        margin: 0 0 0.6rem;
+        font-size: clamp(0.75rem, 2vw, 0.95rem);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: color-mix(in srgb, var(--theme-secondary-color) 84%, #ffffff 16%);
+    }
+
+    .intro-dossier h1 {
+        margin: 0;
+        font-size: clamp(2rem, 5.4vw, 4.2rem);
+        line-height: 1.05;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--theme-primary-color);
+        text-shadow:
+            0 0 22px color-mix(in srgb, var(--theme-primary-color) 42%, transparent),
+            0 3px 0 color-mix(in srgb, #000 70%, transparent);
+    }
+
+    .intro-description {
+        margin: 1rem 0 1.4rem;
+        font-size: clamp(1rem, 2.1vw, 1.24rem);
+        line-height: 1.6;
+        color: color-mix(in srgb, var(--theme-secondary-color) 88%, #fff 12%);
+        max-width: 64ch;
+    }
+
+    #start-btn {
+        border: 1px solid color-mix(in srgb, var(--theme-primary-color) 80%, transparent);
+        border-radius: 999px;
+        background:
+            linear-gradient(
+                90deg,
+                color-mix(in srgb, var(--theme-primary-color) 24%, transparent) 0%,
+                color-mix(in srgb, var(--theme-primary-color) 56%, #0e0f11 44%) 50%,
+                color-mix(in srgb, var(--theme-primary-color) 24%, transparent) 100%
+            );
+        color: #fff;
+        font: inherit;
+        font-size: clamp(1rem, 2vw, 1.2rem);
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        padding: 0.9rem 1.8rem;
+        cursor: pointer;
+        box-shadow:
+            0 14px 28px color-mix(in srgb, var(--theme-primary-color) 35%, transparent),
+            0 0 16px color-mix(in srgb, var(--theme-primary-color) 20%, transparent);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    #start-btn:hover {
+        transform: translateY(-2px) scale(1.01);
+        filter: brightness(1.07);
+    }
+
+    #start-btn:active {
+        transform: translateY(0) scale(0.99);
+    }
+
+    #start-btn:disabled {
+        opacity: 0.8;
+        cursor: wait;
+    }
+
+    #start-btn {
+        width: min(100%, 360px);
+        max-width: 100%;
     }
 
     .container {
@@ -386,6 +650,18 @@ const styles: Record<string, [string, string]> = {
     }
 
     @media (max-width: 900px) {
+        .intro-dossier {
+            text-align: center;
+        }
+
+        .intro-label {
+            letter-spacing: 0.16em;
+        }
+
+        .intro-description {
+            margin-inline: auto;
+        }
+
         .mvp-dossier {
             grid-template-columns: 1fr;
             gap: 1rem;
@@ -409,6 +685,42 @@ const styles: Record<string, [string, string]> = {
 
         .mvp-content .life-counter {
             justify-content: center;
+        }
+    }
+
+    @keyframes introSpotlightPulse {
+        0%,
+        100% {
+            transform: scale(1);
+            opacity: 0.55;
+        }
+        50% {
+            transform: scale(1.12);
+            opacity: 0.85;
+        }
+    }
+
+    @keyframes dossierFloating {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+
+    @keyframes dossierOpening {
+        0% {
+            transform: perspective(1200px) rotateX(0deg) scale(1);
+        }
+        60% {
+            transform: perspective(1200px) rotateX(58deg) scale(1.02);
+            opacity: 1;
+        }
+        100% {
+            transform: perspective(1200px) rotateX(84deg) scale(1.04);
+            opacity: 0;
         }
     }
 </style>
