@@ -20,8 +20,8 @@ export const SITE = {
   twitterCreator: '@Sheñey',
 } as const;
 
-export function getBirthdayURL(name: string): string {
-  return `${SITE.baseURL}/birthday/${encodeURIComponent(name)}`;
+export function getBirthdayURL(personId: string): string {
+  return `${SITE.baseURL}/birthday/${encodeURIComponent(personId)}`;
 }
 
 export function getDescription(name: string, message: string): string {

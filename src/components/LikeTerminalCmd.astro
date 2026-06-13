@@ -1,0 +1,160 @@
+---
+export interface LikeTerminalProps {
+    command: string;
+    output: string;
+    dtype: string;
+    className?: string;
+}
+
+const { command, output, dtype, className } = Astro.props as LikeTerminalProps;
+---
+
+<span
+    class={`like-terminal ${className}`}
+    data-command={command}
+    data-output={output}
+>
+    <div class="terminal-left">
+        <span class="mark">{">"}</span>
+        <span class="text">
+            <span class="command"></span>
+            <span class="output"></span>
+        </span>
+        <span class="cursor">|</span>
+    </div>
+
+    <div class="terminal-right animate-in fade-in duration-500">
+        <span class="mark">:</span>
+        <span class="dtype">
+            {dtype}
+        </span>
+    </div>
+</span>
+
+<script>
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+    async function typeText(el, text, speed = 50) {
+        el.textContent = "";
+
+        for (const char of text) {
+            el.textContent += char;
+            await sleep(speed + Math.random() * 30);
+        }
+    }
+
+    document.querySelectorAll(".like-terminal").forEach(async (terminal) => {
+        const command = terminal.dataset.command ?? "";
+        const output = terminal.dataset.output ?? "";
+
+        const rightEl = terminal.querySelector(".terminal-right");
+        const textEl = terminal.querySelector(".text");
+        const commandEl = terminal.querySelector(".command");
+        const outputEl = terminal.querySelector(".output");
+        const dtypeEl = terminal.querySelector(".dtype");
+
+        if (!commandEl || !outputEl || !dtypeEl) return;
+
+        rightEl.style.opacity = "0";
+        dtypeEl.style.opacity = "0";
+
+        await typeText(commandEl, command, 40);
+        await sleep(800);
+
+        commandEl.textContent = "";
+
+        await sleep(500 + Math.random() * 1200);
+        await typeText(outputEl, output, 35);
+        await sleep(200);
+
+        rightEl.style.opacity = "1";
+        dtypeEl.style.opacity = "1";
+    });
+</script>
+
+<style>
+    .like-terminal {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        white-space: nowrap;
+    }
+
+    .terminal-left {
+        display: flex;
+        align-items: center;
+        gap: 0.15em;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .terminal-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.25em;
+    }
+
+    .cursor {
+        font-weight: 900;
+        font-weight: bold;
+        color: #484848;
+        animation: blink 1s infinite;
+    }
+
+    .command,
+    .output,
+    .dtype,
+    .mark {
+        font-family: "Consolas", monospace;
+        font-weight: 300;
+        line-height: 1.15;
+        font-size: clamp(0.7rem, 2.4vw, 1rem);
+    }
+
+    .command {
+        color: #c08c62;
+    }
+
+    .output {
+        color: #278d57;
+    }
+
+    .dtype {
+        color: #d3c794;
+        margin-left: 0.5em;
+        transition: opacity 300ms ease;
+    }
+
+    .mark {
+        color: #484848;
+        margin-right: 0.4em;
+        margin-top: 0.16em;
+    }
+
+    @keyframes blink {
+        0%,
+        50% {
+            opacity: 1;
+        }
+
+        51%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .like-terminal {
+            margin-bottom: 0.1rem;
+        }
+
+        .command,
+        .output,
+        .dtype,
+        .mark {
+            font-size: clamp(0.65rem, 2.4vw, 1.3rem);
+        }
+    }
+</style>

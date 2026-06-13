@@ -11,11 +11,11 @@ export interface PhotoVentoGridProps {
 const { personData, title = "Album de recuerdos", titleColor } =
     Astro.props as PhotoVentoGridProps;
 
-const photos = personData.extraPhotos ? Object.values(personData.extraPhotos) : [];
+const photos = personData.media.galleryPhotos;
 
 const CSSVarColors = `
-    --border-color1: ${personData.theme.primaryColor};
-    --border-color2: ${personData.theme.secondaryColor};
+    --border-color1: ${personData.appearance.theme.primaryColor};
+    --border-color2: ${personData.appearance.theme.secondaryColor};
 `;
 ---
 
@@ -28,7 +28,7 @@ const CSSVarColors = `
         >
             <h2
                 class="vento-title"
-                style={`color: ${titleColor ?? personData.theme.primaryColor};`}
+                style={`color: ${titleColor ?? personData.appearance.theme.primaryColor};`}
             >
                 {title}
             </h2>
@@ -38,7 +38,7 @@ const CSSVarColors = `
                     <figure class="vento-item" data-vento-item>
                         <img
                             class="vento-photo"
-                            src={getPhotoURL(personData.nameId, photo.title)}
+                            src={getPhotoURL(personData.id, photo.title)}
                             alt={photo.alt}
                             loading="lazy"
                             style={photo.style ?? ""}

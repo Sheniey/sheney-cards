@@ -1,0 +1,344 @@
+---
+import CloseIcon from "@/assets/icons/close.svg";
+
+type WindowModalPalette = {
+    borderColor?: string;
+    glowColor?: string;
+    toolbarBackground?: string;
+    windowBackground?: string;
+    contentColor?: string;
+};
+
+export interface WindowModalProps {
+    title: string;
+    id?: string;
+    classModal?: string;
+    classContent?: string;
+    classCloseButton?: string;
+    classTitle?: string;
+    closeLabel?: string;
+    password?: string;
+    palette?: WindowModalPalette;
+}
+
+const {
+    title,
+    id = "mafia-mvp-modal",
+    classModal = "",
+    classContent = "",
+    classCloseButton = "",
+    classTitle = "",
+    closeLabel = "Close",
+    password = null,
+    palette = {},
+} = Astro.props as WindowModalProps;
+
+const cssVars = {
+    "--window-border": palette.borderColor ?? "#7edce6",
+    "--window-glow": palette.glowColor ?? `${palette.borderColor ?? "#7edce6"}99`,
+    "--window-toolbar-bg": palette.toolbarBackground ?? "#050505",
+    "--window-bg": palette.windowBackground ?? "#ffffff",
+    "--window-text": palette.contentColor ?? "#0f172a",
+};
+const needPassword = typeof password === "string" && password.length > 0;
+const passwordStorageKey = `window-modal-unlocked:${id}`;
+---
+
+{
+    <dialog
+        id={id}
+        class={`window-modal ${classModal}`.trim()}
+        style={cssVars}
+        closedby="any"
+    >
+        <div class="window-toolbar">
+            <span class={`window-title ${classTitle}`.trim()}>{needPassword ? "<Top Secret>" : title}</span>
+            <form method="dialog">
+                <button
+                    class={`window-close ${classCloseButton}`.trim()}
+                    type="submit"
+                    aria-label={closeLabel}
+                >
+                    <CloseIcon width={22} height={22} />
+                </button>
+            </form>
+        </div>
+
+        <div class={`window-content ${classContent}`.trim()}>
+            {needPassword && (
+                <section class="window-lock" data-window-lock>
+                    <h3>Acceso restringido</h3>
+                    <p>Introduce la contraseña para ver el contenido.</p>
+                    <p id="note">NOTA: Por nada del mundo se te ocurra ir a otra ventana. *guiño* *guiño*</p>
+                    <form class="window-lock-form" data-window-password-form>
+                        <input
+                            class="window-lock-input"
+                            type="password"
+                            name="password"
+                            autocomplete="current-password"
+                            required
+                            placeholder="Contraseña"
+                        />
+                        <button class="window-lock-submit" type="submit">Desbloquear</button>
+                    </form>
+                    <p class="window-lock-feedback" data-window-password-feedback aria-live="polite"></p>
+                </section>
+            )}
+            <div class="window-slot-content" data-window-slot hidden={needPassword}>
+                <slot />
+            </div>
+        </div>
+    </dialog>
+}
+
+<script define:vars={{ id, title, needPassword, password, passwordStorageKey }} is:inline>
+    const feedbackDialogues = [
+        "La inteligencia te persigue, pero tú siempre encuentras la forma de escapar.",
+        "Esa contraseña estaba tan lejos de la correcta que ya solicitó ciudadanía en otro país.",
+        "Tu intento fue valiente. Incorrecto... pero valiente.",
+        "Si las contraseñas se abrieran por lástima, ya habrías entrado.",
+        "Hermano que carajo es esa contraseña, esfuerzate más.",
+        "La contraseña correcta acaba de llamar para pedir una orden de alejamiento.",
+        "Vaya intento tan más miserable...",
+        "He visto adivinanzas resueltas por una papa con mejores resultados.",
+        "Si esto fuera un examen, el lápiz pediría cambio de estudiante.",,
+        "Tu intento fue tan malo que el botón de enviar que le costó procesarlo.",
+        "No estabas ni caliente. Ni tibio. Ni en el mismo sistema solar.",
+        "¿Estás adivinando o limpiando el teclado con la frente?",
+        "La buena noticia: escribiste algo. La mala: era eso.",
+        "Que lastima que te faltó una actualización, simio.",
+        "¿Ya intentaste ir a otra modal/ventana?",
+        "Cada intento incorrecto hace más evidente tu estupidez.",
+        "La NASA detectó tu respuesta y la clasificó como objeto perdido en el espacio.",
+        "Si equivocarse diera puntos, acabas de romper el récord mundial.",
+        "Tu confianza es admirable. Tus resultados, no tanto.",
+        "Has descubierto una nueva contraseña. Lástima que no sea ésta.",
+        "Se vale soñar... se vale soñar.",
+        "Esa contraseña estaba de la verga, lastima que Saet se la comió.",
+        "Esa contraseña estaba de la verga, lastima que Saet se la comió.",
+        "Esa contraseña estaba de la verga, lastima que Saet se la comió.",
+        "Esa contraseña estaba de la verga, lastima que Saet se la comió.",
+        "Esa contraseña estaba de la verga, lastima que Saet se la comió.",
+        "Felicidades, encontraste otra forma creativa de no acertar.",
+        "A este ritmo entrarás por jubilación, no por acierto.",
+        "Que tan mierda está tu contraseña para que el paraplejico tuvo que pararse a borrarla.",
+        "Has convertido el error en una forma de arte.",
+        "Si pensar fuera ejercicio, con esa respuesta no quemaste ni una caloría.",
+    ];
+    
+    const modalElement = document.getElementById(id);
+
+    if (modalElement instanceof HTMLElement) {
+        const lockSection = modalElement.querySelector('[data-window-lock]');
+        const slotContent = modalElement.querySelector('[data-window-slot]');
+
+        if (lockSection instanceof HTMLElement && slotContent instanceof HTMLElement && needPassword) {
+            const lockForm = lockSection.querySelector('[data-window-password-form]');
+            const passwordInput = lockSection.querySelector('input[name="password"]');
+            const feedback = lockSection.querySelector('[data-window-password-feedback]');
+            const titleElement = modalElement.querySelector('.window-title');
+
+            const unlockModal = () => {
+                lockSection.hidden = true;
+                slotContent.hidden = false;
+                if (passwordInput instanceof HTMLInputElement) {
+                    passwordInput.value = '';
+                }
+                if (feedback instanceof HTMLElement) {
+                    feedback.textContent = '';
+                }
+                if (modalElement instanceof HTMLDialogElement) {
+                    titleElement.textContent = title;
+                    modalElement.classList.add('animate-fade-in', 'duration-500');
+                    modalElement.showModal();
+                }
+            };
+
+            if (localStorage.getItem(passwordStorageKey) === 'true') {
+                localStorage.setItem('server-was-pwned', 'true');
+                unlockModal();
+            }
+
+            lockForm?.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const enteredPassword = passwordInput instanceof HTMLInputElement
+                    ? passwordInput.value
+                    : '';
+
+                if (enteredPassword === password) {
+                    localStorage.setItem(passwordStorageKey, 'true');
+                    alert(`
+================================
+SYSTEM PWNED!! WARNING YOU'RE ROOT NOW, be careful with what you do next.
+
+SÍSTEMA HACKEADO!! ADVERTENCIA: AHORA TIENES ACCESO DE ADMINISTRADOR, procede con cuidado.
+
+================================
+
+"${title}" is TOP SECRET --- ssshhhh!!! :)
+
+================================
+`);
+                    unlockModal();
+                    return;
+                }
+
+                if (feedback instanceof HTMLElement) {
+                    const randomIndex = Math.floor(Math.random() * feedbackDialogues.length);
+                    feedback.textContent = `"${feedbackDialogues[randomIndex]}"`;
+                }
+            });
+        }
+    }
+</script>
+
+<style>
+    .window-modal {
+        position: fixed;
+        width: min(860px, 92vw);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 3px solid var(--window-border);
+        border-radius: 14px;
+        padding: 0;
+        background: var(--window-bg);
+        color: var(--window-text);
+        box-shadow:
+            0 0 0 1px rgba(255, 255, 255, 0.06),
+            0 0 24px var(--window-glow)
+        ;
+        overflow: hidden;
+    }
+
+    .window-toolbar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        min-width: 100%;
+        height: 50px;
+        justify-content: flex-end;
+        background: var(--window-toolbar-bg);
+        padding-inline: 0.45rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+        z-index: 3;
+    }
+
+    .window-title {
+        position: absolute;
+        left: 1rem;
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: var(--window-text);
+    }
+
+    .window-close {
+        width: 36px;
+        height: 36px;
+        border: 0;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #3d3d3d;
+        background: transparent;
+        cursor: pointer;
+    }
+
+    .window-content {
+        margin-top: 50px;
+        padding: 1rem;
+        max-height: min(74vh, 900px);
+        overflow: auto;
+        background: var(--window-bg);
+        color: var(--window-text);
+    }
+
+    .window-lock {
+        border: 1px solid color-mix(in srgb, var(--window-border) 65%, transparent);
+        border-radius: 12px;
+        padding: 1rem;
+        background: linear-gradient(
+            180deg,
+            color-mix(in srgb, var(--window-bg) 72%, #000 28%),
+            color-mix(in srgb, var(--window-bg) 85%, #000 15%)
+        );
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    .window-lock h3 {
+        font-weight: 650;
+        font-size: 1.05rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .window-lock p {
+        margin-bottom: 0.2rem;
+        font-size: clamp(0.85rem, 2vw, 0.95rem);
+        color: color-mix(in srgb, var(--window-text) 88%, #fff 12%);    
+    }
+    #note {
+        margin-bottom: 1rem;
+    }
+
+    .window-lock-form {
+        display: flex;
+        gap: 0.65rem;
+        align-items: center;
+    }
+
+    .window-lock-input {
+        flex: 1;
+        min-width: 0;
+        border: 1px solid color-mix(in srgb, var(--window-border) 55%, transparent);
+        border-radius: 10px;
+        padding: 0.6rem 0.75rem;
+        background: color-mix(in srgb, var(--window-bg) 84%, #000 16%);
+        color: var(--window-text);
+        outline: none;
+    }
+
+    .window-lock-input:focus-visible {
+        border-color: var(--window-border);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--window-glow) 35%, transparent);
+    }
+
+    .window-lock-submit {
+        border: 0;
+        border-radius: 10px;
+        padding: 0.62rem 0.9rem;
+        font-weight: 700;
+        cursor: pointer;
+        color: #091015;
+        background: linear-gradient(180deg, var(--window-border), color-mix(in srgb, var(--window-border) 72%, #000 28%));
+    }
+
+    .window-lock-submit:hover {
+        filter: brightness(1.05);
+    }
+
+    .window-lock-feedback {
+        min-height: 1.25rem;
+        margin: 0.65rem 0 0;
+        font-size: clamp(0.75rem, 2vw, 0.9rem);
+        color: #ff8e8e;
+    }
+
+    .window-slot-content[hidden] {
+        display: none;
+    }
+
+    @media (max-width: 560px) {
+        .window-lock-form {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+
+    .window-modal::backdrop {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(2px);
+    }
+</style>

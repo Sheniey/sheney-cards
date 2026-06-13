@@ -1,0 +1,761 @@
+---
+import type { MafiaConfig, MafiaStatus, PersonBirthdayData } from '@/types';
+import { getPersonPhotoURL } from '@/config/media';
+
+import LikeTerminalCmd from '@/components/LikeTerminalCmd.astro';
+import ArrowLeft from '@/assets/icons/arrow-left.svg';
+import ArrowRight from '@/assets/icons/arrow-right.svg';
+
+type MafiaCarouselPalette = {
+    background?: string;
+    cardBackground?: string;
+    text?: string;
+    alive?: string;
+    dead?: string;
+    shadow?: string;
+};
+
+export interface MafiaCaroucelProps {
+    mafiaMVPerson: PersonBirthdayData;
+    mafiaData: MafiaConfig;
+    palette?: MafiaCarouselPalette;
+    mvpModalId?: string;
+    commonModalId?: string;
+}
+
+type ImportanceLevel = 'top' | 'high' | 'medium' | 'low' | 'null';
+
+type VillainCardData = {
+    id: string;
+    wantedPerson: string | null;
+    status: MafiaStatus;
+    src: string;
+    alt: string;
+    style: string;
+    villainColor: string;
+    summary: string | null;
+    importance: [string, ImportanceLevel];
+    type: 'mvp' | 'common';
+    sourceIndex: number;
+    occupation: string | null;
+    age: number | null;
+};
+
+const {
+    mafiaMVPerson,
+    mafiaData,
+    palette = {},
+    mvpModalId = 'mafia-mvp-modal',
+    commonModalId = 'mafia-common-modal',
+} = Astro.props as MafiaCaroucelProps;
+
+const formatImportanceLevel = (lvl: number): [string, ImportanceLevel] => {
+    if (lvl <= 0) return ['☆☆☆☆☆', 'null'];
+    if (lvl >= 5) return ['★★★★★', 'top'];
+
+    const clamped = Math.max(0, Math.min(5, lvl));
+    const stars = '★'.repeat(clamped) + '☆'.repeat(5 - clamped);
+    let level: ImportanceLevel;
+    switch (clamped) {
+        case 5:
+            level = 'top';
+            break;
+        case 4:
+            level = 'high';
+            break;
+        case 3:
+            level = 'medium';
+            break;
+        case 2:
+        case 1:
+            level = 'low';
+            break;
+        default:
+            level = 'null';
+    }
+    return [stars, level];
+};
+
+const baseVillains = [
+    {
+        id: 'mvp',
+        wantedPerson: mafiaData.mvp.wantedPerson ?? `${mafiaMVPerson.profile.firstName} ${mafiaMVPerson.profile.lastName}`,
+        status: mafiaData.mvp.status,
+        src: getPersonPhotoURL(mafiaMVPerson.id, mafiaData.mvp.title),
+        alt: mafiaData.mvp.alt,
+        style: mafiaData.mvp.style,
+        villainColor: mafiaData.mvp.villainColor,
+        summary: mafiaMVPerson.content.message,
+        occupation: mafiaData.mvp.occupation,
+        age: new Date().getFullYear() - new Date(mafiaMVPerson.profile.bornDate).getFullYear(),
+        type: 'mvp' as const,
+        importance: formatImportanceLevel(mafiaData.mvp.importance_lvl),
+    },
+    ...mafiaData.common.map((person, index) => ({
+        id: `common-${index}`,
+        wantedPerson: person.wantedPerson ?? '<Anonymous>',
+        status: person.status,
+        src: getPersonPhotoURL(mafiaMVPerson.id, person.title),
+        alt: person.alt,
+        style: person.style,
+        villainColor: person.villainColor,
+        summary: person.summary,
+        occupation: person.occupation,
+        age: person.age,
+        type: 'common' as const,
+        importance: formatImportanceLevel(person.importance_lvl),
+    })),
+];
+
+const minimumDesktopCards = 5;
+const renderCount = Math.max(baseVillains.length, minimumDesktopCards);
+const villains: VillainCardData[] = Array.from({ length: renderCount }, (_, index) => {
+    const sourceIndex = index % baseVillains.length;
+    const source = baseVillains[sourceIndex];
+    return {
+        ...source,
+        id: `${source.id}-clone-${index}`,
+        sourceIndex,
+    };
+});
+
+const cssVars = {
+    '--mafia-bg': palette.background ?? '#050814',
+    '--mafia-card-bg': palette.cardBackground ?? 'rgba(8, 16, 36)',
+    '--mafia-text': palette.text ?? '#e6f4ff',
+    '--mafia-alive': palette.alive ?? '#2adf7f',
+    '--mafia-dead': palette.dead ?? '#ff3a3a',
+    '--mafia-shadow': palette.shadow ?? 'rgba(76, 132, 255, 0.35)',
+};
+---
+
+<section class="mafia-roulette" style={cssVars}>
+    <button
+        type="button"
+        class="mafia-nav mafia-nav--left animate-slide-in-right duration-600"
+        id="mafia-nav-left"
+        aria-label="Anterior"
+    >
+        <ArrowLeft/>
+    </button>
+
+    <div class="mafia-stage" aria-label="Ruleta de mafiosos">
+        {
+            villains.map((villain, index) => (
+                <button
+                    type="button"
+                    class="villain-card animate-fade-in duration-600"
+                    data-index={index}
+                    data-card-type={villain.type}
+                    data-summary={villain.summary ?? ''}
+                    data-wanted-person={villain.wantedPerson}
+                    data-source-index={villain.sourceIndex}
+                    data-villain-status={villain.status}
+                    style={`--villain-color:${villain.villainColor};`}
+                >
+                    <div class="villain-hero-wrap">
+                        <img
+                            src={villain.src}
+                            alt={villain.alt}
+                            class="villain-hero"
+                            style={villain.style}
+                            loading="eager"
+                            decoding="async"
+                        />
+
+                        <div class="stadistics">
+                            <span class="status-tag">STATUS: <span class={`status-tag-value status-tag__${villain.status}`}>{villain.status.toUpperCase()}</span></span>
+                            <span class="importance-tag">IMPORTANCE: <span class={`importance-tag-value importance-tag__${villain.importance[1]}`}>{villain.importance[0].split('☆').join('')}</span></span>
+                        </div>
+                    </div>
+
+                    <div class="profile">
+                        <p class="villain-name">{villain.wantedPerson}</p>
+                        <div class="villain-data">
+                            <LikeTerminalCmd
+                                command={`getAgeOf(${villain.wantedPerson})`}
+                                output={villain.age !== null ? `Current Age: ${villain.age}` : 'Current Age: <Unknown>'}
+                                dtype={villain.age !== null ? 'number' : 'null'}
+                                className="villain-age"
+                            />
+                            <LikeTerminalCmd
+                                command={`getAccusationOf(${villain.wantedPerson})`}
+                                output={`Accused of: ${villain.occupation}`}
+                                dtype="string"
+                                className="villain-accusations"
+                            />
+                        </div>
+                    </div>
+                </button>
+            ))
+        }
+    </div>
+
+    <button
+        type="button"
+        class="mafia-nav mafia-nav--right animate-slide-in-left duration-600"
+        id="mafia-nav-right"
+        aria-label="Siguiente"
+    >
+        <ArrowRight />
+    </button>
+</section>
+
+{
+    Astro.slots.has('custom-mvp-modal') ? (
+        <slot name="custom-mvp-modal" />
+    ) : (
+        <dialog id={mvpModalId} class="mafia-modal" closedby="any">
+            <div class="mafia-modal-content">
+                <slot />
+            </div>
+            <form method="dialog">
+                <button class="mafia-modal-close" type="submit">Cerrar</button>
+            </form>
+        </dialog>
+    )
+}
+
+{
+    Astro.slots.has('custom-common-modal') ? (
+        <slot name="custom-common-modal" />
+    ) : (
+        <dialog id={commonModalId} class="mafia-modal" closedby="any">
+            <div class="mafia-modal-content">
+                <h3 id="mafia-common-title">Objetivo</h3>
+                <p id="mafia-common-summary"></p>
+            </div>
+            <form method="dialog">
+                <button class="mafia-modal-close" type="submit">Cerrar</button>
+            </form>
+        </dialog>
+    )
+}
+
+
+<script define:vars={{ mvpModalId, commonModalId }} is:inline>
+    const stage = document.querySelector('.mafia-stage');
+    const cards = stage ? Array.from(stage.querySelectorAll('.villain-card')) : [];
+    const mvpModal = document.getElementById(mvpModalId);
+    const commonModal = document.getElementById(commonModalId);
+    const commonTitle = document.getElementById('mafia-common-title');
+    const commonSummary = document.getElementById('mafia-common-summary');
+    const prevButton = document.getElementById('mafia-nav-left');
+    const nextButton = document.getElementById('mafia-nav-right');
+
+    let activeIndex = 0;
+    let autoRotate;
+
+    const getVisibleDistance = () => (window.innerWidth >= 900 ? 2 : 1);
+
+    const getWrappedOffset = (index, center, total) => {
+        const base = index - center;
+        const wrappedLeft = base - total;
+        const wrappedRight = base + total;
+
+        return [base, wrappedLeft, wrappedRight].reduce((best, current) =>
+            Math.abs(current) < Math.abs(best) ? current : best
+        );
+    };
+
+    const updateCards = () => {
+        const visibleDistance = getVisibleDistance();
+        const total = cards.length;
+
+        cards.forEach((card, index) => {
+            const offset = getWrappedOffset(index, activeIndex, total);
+            const absOffset = Math.abs(offset);
+
+            card.dataset.state = 'hidden';
+            card.tabIndex = -1;
+            card.setAttribute('aria-hidden', 'true');
+
+            if (absOffset > visibleDistance) return;
+
+            card.dataset.state = absOffset === 0 ? 'center' : absOffset === 1 ? 'near' : 'far';
+            card.dataset.side = offset < 0 ? 'left' : 'right';
+            card.tabIndex = 0;
+            card.removeAttribute('aria-hidden');
+        });
+    };
+
+    const move = (step = 1) => {
+        if (!cards.length) return;
+        activeIndex = (activeIndex + step + cards.length) % cards.length;
+        updateCards();
+    };
+
+    cards.forEach((card) => {
+        card.addEventListener('click', () => {
+            const wasCenter = card.dataset.state === 'center';
+
+            const index = Number(card.dataset.index);
+
+            if (!wasCenter) {
+                activeIndex = index;
+                updateCards();
+                return;
+            }
+
+            if (card.dataset.cardType === 'mvp') {
+                if (mvpModal instanceof HTMLDialogElement) {
+                    mvpModal.showModal();
+                }
+                return;
+            }
+
+            if (commonModal instanceof HTMLDialogElement) {
+                if (commonTitle) {
+                    commonTitle.textContent = card.dataset.wantedPerson || 'Objetivo común';
+                }
+
+                if (commonSummary) {
+                    if (card.dataset.summary === null || card.dataset.summary === '') {
+                        commonSummary.innerHTML = '<p>Sigue en investigación.</p>';
+                    } else {
+                        commonSummary.innerHTML = `<hr><p>${card.dataset.summary}</p>`;
+                    }
+                }
+
+                commonModal.showModal();
+            }
+
+        });
+    });
+
+    const closeOnBackdrop = (dialog) => {
+        if (!(dialog instanceof HTMLDialogElement)) return;
+
+        dialog.addEventListener('click', (event) => {
+            const rect = dialog.getBoundingClientRect();
+            const inside =
+                event.clientX >= rect.left &&
+                event.clientX <= rect.right &&
+                event.clientY >= rect.top &&
+                event.clientY <= rect.bottom
+            ;
+
+            if (!inside) dialog.close();
+        });
+    };
+
+    closeOnBackdrop(mvpModal);
+    closeOnBackdrop(commonModal);
+
+    prevButton?.addEventListener('click', () => {
+        move(-1);
+    });
+    nextButton?.addEventListener('click', () => {
+        move(1);
+    });
+
+    window.addEventListener('resize', updateCards);
+
+    updateCards();
+</script>
+
+<style>
+    .mafia-roulette {
+        position: relative;
+        width: 100vw;
+        min-height: 92vh;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding: 0;
+        border: 0;
+        outline: 0;
+        box-shadow: none;
+        border-radius: 0;
+        background: var(--mafia-bg);
+        overflow: hidden;
+    }
+
+    .mafia-stage {
+        position: relative;
+        width: 100%;
+        min-height: 92vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12vw;
+    }
+    
+    @property --angle {
+        syntax: "<angle>";
+        inherits: false;
+        initial-value: 0deg;
+    }
+
+    .villain-card {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: min(28vw, 620px);
+        min-width: 340px;
+        aspect-ratio: 3 / 4;
+        display: grid;
+        grid-template-rows: 70% 30%;
+        padding: 6px;
+        border-radius: 26px;
+        background: conic-gradient(
+            from var(--angle),
+            var(--villain-color, #7edce6) 0%,
+            var(--villain-color, #7edce6) 13%,
+            transparent 13%,
+            transparent 26%,
+            var(--villain-color, #45a3b0) 26%,
+            var(--villain-color, #45a3b0) 39%,
+            transparent 39%,
+            transparent 52%,
+            var(--villain-color, #7edce6) 52%,
+            var(--villain-color, #7edce6) 65%,
+            transparent 65%,
+            transparent 78%,
+            var(--villain-color, #45a3b0) 78%,
+            var(--villain-color, #45a3b0) 91%,
+            transparent 91%,
+            transparent 100%
+        );
+        animation: spin 6s linear infinite;
+        color: var(--mafia-text);
+        cursor: pointer;
+        box-shadow: 0 24px 58px -20px var(--mafia-shadow);
+        transition: transform 260ms ease, opacity 260ms ease, filter 260ms ease;
+        transform-origin: center center;
+    }
+
+    .villain-card::after {
+        content: '';
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        right: 6px;
+        bottom: 6px;
+        border-radius: 20px;
+        background: var(--mafia-card-bg);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .villain-card > * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .villain-card[data-villain-status="dead"] {
+        background: conic-gradient(
+            from var(--angle),
+            var(--villain-color, #ff3a3a) 0%,
+            var(--villain-color, #ff3a3a) 5%,
+            transparent 5%,
+            transparent 25%,
+            var(--villain-color, #ff3a3a) 25%,
+            var(--villain-color, #ff3a3a) 30%,
+            transparent 30%,
+            transparent 50%,
+            var(--villain-color, #ff3a3a) 50%,
+            var(--villain-color, #ff3a3a) 55%,
+            transparent 55%,
+            transparent 75%,
+            var(--villain-color, #ff3a3a) 75%,
+            var(--villain-color, #ff3a3a) 80%,
+            transparent 80%,
+            transparent 100%
+        );
+    }
+
+    .villain-card::before {
+        filter: blur(1rem);
+        opacity: 0.5;
+    }
+
+    .villain-card[data-state="center"] {
+        opacity: 1;
+        z-index: 4;
+        transform: translate(-50%, -50%) scale(1);
+        filter: blur(0);
+    }
+
+    .villain-card[data-state="near"] {
+        opacity: 0.85;
+        z-index: 3;
+        transform: translate(calc(-50% + (var(--dir) * 36%)), -50%) scale(0.78);
+        filter: blur(2px);
+    }
+
+    .villain-card[data-state="far"] {
+        opacity: 0.62;
+        z-index: 2;
+        transform: translate(calc(-50% + (var(--dir) * 56%)), -50%) scale(0.58);
+        filter: blur(3.2px);
+    }
+
+    .villain-card[data-state="hidden"] {
+        opacity: 0;
+        pointer-events: none;
+        z-index: 1;
+        transform: translate(-50%, -50%) scale(0.4);
+        filter: blur(4px);
+    }
+
+    .villain-card[data-side="left"] {
+        --dir: -1;
+    }
+
+    .villain-card[data-side="right"],
+    .villain-card[data-state="center"] {
+        --dir: 1;
+    }
+
+    .villain-hero-wrap {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        background: #02050f;
+    }
+
+    .villain-hero {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        position: relative;
+    }
+
+    .villain-card[data-villain-status="dead"] .villain-hero {
+        filter: grayscale(100%) brightness(85%);
+    }
+
+    .villain-hero-wrap::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 40%;
+        pointer-events: none;
+        z-index: 3;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0),
+            rgba(0, 0, 0, 0.3) 40%,
+            rgba(0, 0, 0, 0.7) 80%,
+            rgba(0, 0, 0, 0.9)
+        );
+    }
+
+    .stadistics {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        right: 1rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        z-index: 4;
+        color: var(--villain-color);
+        font-size: clamp(0.65rem, 0.9vw, 0.85rem);
+    }
+
+    .status-tag {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .status-tag-value {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .status-tag__alive { color: #2adf7f; }
+    .status-tag__dead { color: #ff3a3a; }
+
+    .importance-tag {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .importance-tag-value {
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        font-family: monospace;
+        font-size: 1.1em;
+    }
+
+    .importance-tag__null { color: #666666; }
+    .importance-tag__low { color: #e8cb8d; }
+    .importance-tag__medium { color: #e6a55f; }
+    .importance-tag__high { color: #ff6b6b; }
+    .importance-tag__top { color: #ff4d8f; }
+
+    .profile {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 0.8rem 1rem;
+        gap: 0.4rem;
+    }
+
+    .villain-name {
+        position: absolute;
+        top: 2rem;
+        left: 1rem;
+        color: var(--villain-color);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 800;
+        line-height: 1.15;
+        font-size: clamp(1.35rem, 2.4vw, 2rem);
+        padding-inline: 0.5rem;
+    }
+
+    .villain-data {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem auto;
+        margin-top: 2.5rem;
+        margin-left: 0.5rem;
+    }
+
+    .mafia-nav {
+        position: absolute;
+        top: 45%;
+        transform: translateY(-50%);
+        width: 4rem;
+        height: 4rem;
+        border: 0;
+        border-radius: 999px;
+        background: transparent;
+        display: grid;
+        place-items: center;
+        color: white;
+        cursor: pointer;
+        isolation: isolate;
+        z-index: 9999
+    }
+
+    .mafia-nav svg {
+        width: 4rem;
+        height: 4rem;
+        color: inherit;
+    }
+
+    .mafia-nav--left {
+        top: 45%;
+        left: clamp(0.8rem, 3vw, 2.2rem);
+    }
+
+    .mafia-nav--right {
+        top: 45%;
+        right: clamp(0.8rem, 3vw, 2.2rem);
+    }
+
+    .mafia-modal {
+        width: min(840px, 92vw);
+        border-radius: 18px;
+        border: 4px solid var(--villain-color, #7edce6);
+        padding: 1.2rem;
+        background: var(--mafia-card-bg);
+        color: #dff3ff;
+        margin: auto;
+    }
+
+    .mafia-modal::backdrop {
+        background: rgba(0, 0, 0, 0.72);
+        backdrop-filter: blur(2px);
+    }
+
+    .mafia-modal-content {
+        margin-bottom: 0.8rem;
+    }
+
+    .mafia-modal-close {
+        border: 1px solid rgba(145, 187, 255, 0.55);
+        border-radius: 10px;
+        padding: 0.55rem 0.9rem;
+        cursor: pointer;
+        color: #e8f7ff;
+        background: rgba(39, 79, 146, 0.45);
+    }
+
+    @keyframes spin {
+        from {
+            --angle: 0deg;
+        }
+        to {
+            --angle: 360deg;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .mafia-roulette,
+        .mafia-stage {
+            min-height: 80vh;
+        }
+
+        .mafia-stage {
+            gap: 0;
+        }
+
+        .villain-card {
+            width: min(84vw, 470px);
+            min-width: 300px;
+        }
+
+        .villain-card[data-state="near"] {
+            transform: translate(calc(-50% + (var(--dir) * 47%)), -50%) scale(0.72);
+            opacity: 0.78;
+        }
+
+        .villain-card[data-state="far"] {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .villain-name {
+            top: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+        }
+
+        .villain-age {
+            top: 4rem;
+        }
+
+        .villain-occupation {
+            top: 5rem;
+        }
+
+        .mafia-nav {
+            width: 2.8rem;
+            height: 2.8rem;
+            font-size: 3rem;
+        }
+
+        .mafia-nav svg::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            border-radius: 999px;
+            background: rgb(173, 173, 173);
+            animation: nav-pulse 1.2s ease-out infinite;
+        }
+    }
+</style>

@@ -3,6 +3,7 @@ import * as site from '@/config/site'
 
 export interface MetadataProps {
     title: string;
+    personId: string;
     name: string;
     message: string;
     theme: {
@@ -12,9 +13,9 @@ export interface MetadataProps {
     };
 }
 
-const { title, name, message, theme } = Astro.props as MetadataProps;
+const { title, personId, name, message, theme } = Astro.props as MetadataProps;
 
-const currURL = site.getBirthdayURL(name);
+const currURL = site.getBirthdayURL(personId);
 const favicon = site.getFaviconData();
 const author = site.SITE.authorPseudonym;
 

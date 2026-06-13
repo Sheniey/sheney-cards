@@ -1,177 +1,339 @@
 {
-    "kareli": {
-        "title": "FC: Kareli 💙",
-        "name": "Kareli",
-        "firstName": "Kareli Yazmín",
-        "lastName": "Arechiga Velázco",
-        "bornDate": "2010-06-13T00:00:00",
-        "nameId": "kareli",
-        "links": {
-            "instagram": "https://www.instagram.com/kare_680/"
+    "evelyn": {
+        "id": "evelyn",
+        "seo": {
+            "title": "FC: Evelyn ❤️"
         },
-        "message": "Aún no es tu cumple Kareli por cierto.",
-        "quotes": null,
-        "phrases": null,
-        "theme": {
-            "backgroundColor": "#050505",
-            "primaryColor": "#90e0ef",
-            "secondaryColor": "#15277c",
-            "complementaryColor": [
-                "#90e0ef40",
-                "#90e0ef1f"
+        "profile": {
+            "name": "Evelyn",
+            "firstName": "Evelyn Denice",
+            "lastName": "Hernández Gutiérrez",
+            "bornDate": "2010-06-08T00:00:00"
+        },
+        "social": {
+            "instagram": "https://www.instagram.com/denice._hg/",
+            "twitter": null,
+            "facebook": null,
+            "linkedin": null,
+            "github": null,
+            "website": null
+        },
+        "content": {
+            "password": null,
+            "message": "espero que disfrutes tu día lo más asombrosamente posible. De verdad, muchas gracias por ser una muy buena amiga a la que le pido las tareas jsjsjsjsjs.",
+            "quotes": [],
+            "phrases": [
+                "maravillosa... :0",
+                "única... :b",
+                "una gran amiga... :D",
+                "callada... >:|",
+                "linda... :3",
+                "divertida... xD",
+                "downy. :v"
             ]
         },
-        "mainPhoto": {
-            "title": "front.jpg",
-            "alt": "Kareli.",
-            "type": "image/jpeg",
-            "style": ""
+        "appearance": {
+            "theme": {
+                "backgroundColor": "#050505",
+                "primaryColor": "#ff4fa3",
+                "secondaryColor": "#ffcdd4",
+                "complementaryColor": [
+                    "#ff4fa340",
+                    "#ff4fa31f",
+                    "#ffcdd4"
+                ]
+            },
+            "decorations": null
         },
-        "extraPhotos": null,
-        "songList": null,
-        "bgDecoration": {
-            "linesColor": "#90e0ef"
+        "media": {
+            "mainPhoto": {
+                "title": "front.jpeg",
+                "alt": "Evelyn sonriendo a la cámara en una cafetería, con un fondo desenfocado de plantas y luces cálidas de color negro.",
+                "type": "image/jpeg",
+                "style": "rotate: -40deg;"
+            },
+            "galleryPhotos": [],
+            "songs": [
+                {
+                    "title": "Las Mañanitas",
+                    "filename": "mannanitas.mp3",
+                    "alt": "Las mañanitas cantadas por el Mariachi Vargas de Tecalitlán.",
+                    "type": "audio/mpeg"
+                }
+            ],
+            "mafia": null
         }
     },
-    "evelyn": {
-        "title": "FC: Evelyn ❤️",
-        "name": "Evelyn",
-        "firstName": "Evelyn Denice",
-        "lastName": "Hernández Gutiérrez",
-        "bornDate": "2010-06-08T00:00:00",
-        "nameId": "evelyn",
-        "links": {
-            "instagram": "https://www.instagram.com/denice._hg/"
-        },
-        "message": "espero que disfrutes tu día lo más asombrosamente posible. De verdad, muchas gracias por ser una muy buena amiga a la que le pido las tareas jsjsjsjsjs. ",
-        "quotes": null,
-        "phrases": [
-            "maravillosa... :0",
-            "única... :b",
-            "una gran amiga... :D",
-            "callada... >:|",
-            "linda... :3",
-            "divertida... xD",
-            "downy. :v"
-        ],
-        "theme": {
-            "backgroundColor": "#050505",
-            "primaryColor": "#ff4fa3",
-            "secondaryColor": "#ffcdd4",
-            "complementaryColor": [
-                "#ff4fa340",
-                "#ff4fa31f",
-                "#ffcdd4"
-            ]
-        },
-        "mainPhoto": {
-            "title": "front.jpeg",
-            "alt": "Evelyn sonriendo a la cámara en una cafetería, con un fondo desenfocado de plantas y luces cálidas de color negro.",
-            "type": "image/jpeg",
-            "style": "rotate: -40deg;"
-        },
-        "extraPhotos": null,
-        "songList": [
-            {
-                "title": "Las Mañanitas",
-                "filename": "mannanitas.mp3",
-                "alt": "Las mañanitas cantadas por el Mariachi Vargas de Tecalitlán.",
-                "type": "audio/mpeg"
-            }
-        ],
-        "bgDecoration": null
-    },
     "leydy": {
-        "title": "FC: Leydy 💜",
-        "name": "Leydy",
-        "firstName": "Leydy Amairani",
-        "lastName": "Campos Martínez",
-        "bornDate": "2010-06-10T00:00:00",
-        "nameId": "leydy",
-        "links": {
-            "instagram": "https://www.instagram.com/leydy.cm/"
+        "id": "leydy",
+        "seo": {
+            "title": "FC: Leydy 💜"
         },
-        "message": "Lady Gaga soy eres mí fan, estoy agradecido de que lo seas... ya fuera de bromas, joder 16 años, recuerdo que te caia mal lptm cuando tenias 13 años.",
-        "quotes": [
-            { "message": "¡Oí! tú tío, medicate wey...", "author": "Leydy Amairani Campos Martínez" },
-            { "message": "Ushhh ash!! ¡Andrés!", "author": "Leydy Amairani Campos Martínez" },
-            { "message": "JAJAJAJAJAJAJA", "author": "Leydy Amairani Campos Martínez" },
-            { "message": "¡Uy! qué heidy...", "author": "Leydy Amairani Campos Martínez" }
-        ],
-        "phrases": null,
-        "theme": {
-            "backgroundColor": "#050505",
-            "primaryColor": "#9032bb",
-            "secondaryColor": "#dbb6ee",
-            "complementaryColor": [
-                "#9032bb34",
-                "#9032bb1f",
-                "#dbb6ee40"
+        "profile": {
+            "name": "Leydy",
+            "firstName": "Leydy Amairani",
+            "lastName": "Campos Martínez",
+            "bornDate": "2010-06-10T00:00:00"
+        },
+        "social": {
+            "instagram": "https://www.instagram.com/leydy.cm/",
+            "twitter": null,
+            "facebook": null,
+            "linkedin": null,
+            "github": null,
+            "website": null
+        },
+        "content": {
+            "password": null,
+            "message": "Lady Gaga soy eres mí fan, estoy agradecido de que lo seas... ya fuera de bromas, joder 16 años, recuerdo que te caia mal lptm cuando tenias 13 años.",
+            "quotes": [
+                {
+                    "message": "¡Oí! tú tío, medicate wey...",
+                    "author": "Leydy Amairani Campos Martínez"
+                },
+                {
+                    "message": "Ushhh ash!! ¡Andrés!",
+                    "author": "Leydy Amairani Campos Martínez"
+                },
+                {
+                    "message": "JAJAJAJAJAJAJA",
+                    "author": "Leydy Amairani Campos Martínez"
+                },
+                {
+                    "message": "¡Uy! qué heidy...",
+                    "author": "Leydy Amairani Campos Martínez"
+                }
+            ],
+            "phrases": []
+        },
+        "appearance": {
+            "theme": {
+                "backgroundColor": "#050505",
+                "primaryColor": "#9032bb",
+                "secondaryColor": "#dbb6ee",
+                "complementaryColor": [
+                    "#9032bb34",
+                    "#9032bb1f",
+                    "#dbb6ee40"
+                ]
+            },
+            "decorations": {
+                "heartsColor": {
+                    "cel": "#dbb6eeee",
+                    "pc": "#9032bb"
+                }
+            }
+        },
+        "media": {
+            "mainPhoto": {
+                "title": "back.png",
+                "alt": "Leydy mostrando su culo en vez de su cara como una persona normal... mirando el mar sobre unas rocas.",
+                "type": "image/png",
+                "style": ""
+            },
+            "galleryPhotos": [
+                {
+                    "title": "front-baby.jpg",
+                    "url": "https://www.instagram.com/leyd.ypriv/",
+                    "alt": "Leydy de bebé con un vestido rosa y una diadema con un moño del mismo color.",
+                    "type": "image/jpeg",
+                    "style": ""
+                },
+                {
+                    "title": "15ña.jpg",
+                    "url": "https://www.instagram.com/stories/highlights/17968610543916886/",
+                    "alt": "Leydy en un hermoso vestido rosa por sus 15 años.",
+                    "type": "image/jpeg",
+                    "style": ""
+                },
+                {
+                    "title": "money.jpg",
+                    "url": "https://www.instagram.com/stories/highlights/18005310149610234/",
+                    "alt": "Ramo hecho con billetes de $100 mxn.",
+                    "type": "image/jpeg",
+                    "style": ""
+                },
+                {
+                    "title": "beach.jpg",
+                    "url": "https://www.instagram.com/stories/highlights/17905443966211232/",
+                    "alt": "Panorama de la playa, mar y cielo azul.",
+                    "type": "image/jpeg",
+                    "style": ""
+                },
+                {
+                    "title": "heart-arcs.jpg",
+                    "url": "https://www.instagram.com/stories/highlights/18111625054586626/",
+                    "alt": "Pasadiso de Arcos con rosas rojas.",
+                    "type": "image/jpeg",
+                    "style": ""
+                },
+                {
+                    "title": "disgusting-cat-meme.jpg",
+                    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ",
+                    "alt": "Meme del gato con cara de asco.",
+                    "type": "image/jpeg",
+                    "style": ""
+                }
+            ],
+            "songs": [
+                {
+                    "title": "Las Mañanotas",
+                    "filename": "las_mannanotas.mp3",
+                    "alt": "Las mañanitas cantadas por Ariel Camacho y los Plebes del Rancho.",
+                    "type": "audio/mpeg"
+                }
+            ],
+            "mafia": null
+        }
+    },
+    "kareli": {
+        "id": "kareli",
+        "seo": {
+            "title": "FC: Kareli 💙"
+        },
+        "profile": {
+            "name": "Kareli",
+            "firstName": "Kareli Yazmín",
+            "lastName": "Arechiga Velázco",
+            "bornDate": "2010-06-13T00:00:00"
+        },
+        "social": {
+            "instagram": "https://www.instagram.com/kare_680/",
+            "twitter": null,
+            "facebook": null,
+            "linkedin": null,
+            "github": null,
+            "website": null
+        },
+        "content": {
+            "password": "kareli2010*",
+            "message": "Felicitaciones Kareli, .",
+            "quotes": [],
+            "phrases": [
+                "divertida... xD",
+                "alcoholica... :v",
+                "amigable... :D",
+                "inteligente... :O",
+                "estricta... :b",
+                "downy. :3"
             ]
         },
-        "mainPhoto": {
-            "title": "back.png",
-            "alt": "Leydy mostrando su culo en vez de su cara como una persona normal... mirando el mar sobre unas rocas.",
-            "type": "image/png",
-            "style": ""
+        "appearance": {
+            "theme": {
+                "backgroundColor": "#050505",
+                "primaryColor": "#90e0ef",
+                "secondaryColor": "#48cae4",
+                "complementaryColor": [
+                    "#90e0ef64",
+                    "#90e0ef1f"
+                ]
+            },
+            "decorations": {
+                "linesColor": "#90e0ef"
+            }
         },
-        "extraPhotos": [
-            {
-                "title": "front-baby.jpg",
-                "url": "https://www.instagram.com/leyd.ypriv/",
-                "alt": "Leydy de bebé con un vestido rosa y una diadema con un moño del mismo color.",
+        "media": {
+            "mainPhoto": {
+                "title": "kareli-wanted.jpg",
+                "alt": "Kareli.",
                 "type": "image/jpeg",
                 "style": ""
             },
-            {
-                "title": "15ña.jpg",
-                "url": "https://www.instagram.com/stories/highlights/17968610543916886/",
-                "alt": "Leydy en un hermoso vestido rosa por sus 15 años.",
-                "type": "image/jpeg",
-                "style": ""   
+            "galleryPhotos": [],
+            "songs": [],
+            "mafia": {
+                "mvp": {
+                    "title": "kareli-wanted.webp",
+                    "alt": "Simplemente una Foto de Kareli.",
+                    "type": "image/webp",
+                    "style": "",
+                    "status": "alive",
+                    "wantedPerson": "Kareli Ruíz",
+                    "occupation": "Be awesome!!",
+                    "age": 16,
+                    "importance_lvl": 5,
+                    "villainColor": "#90e0ef"
+                },
+                "common": [
+                    {
+                        "title": "evelyn-wanted.webp",
+                        "summary": "s",
+                        "alt": "Simplemente una Foto de Evelyn.",
+                        "type": "image/webp",
+                        "style": "",
+                        "status": "dead",
+                        "wantedPerson": "Eveneitor",
+                        "occupation": "Serial Assassin",
+                        "age": 16,
+                        "importance_lvl": 3,
+                        "villainColor": "#ffcdd4"
+                    },
+                    {
+                        "title": "daniel-wanted.webp",
+                        "summary": null,
+                        "alt": "Simplemente una Foto de Daniel.",
+                        "type": "image/webp",
+                        "style": "",
+                        "status": "dead",
+                        "wantedPerson": "Sheñey",
+                        "occupation": "Heavy Hacker",
+                        "age": null,
+                        "importance_lvl": 4,
+                        "villainColor": "#fcefb4"
+                    }
+                ]
+            }
+        }
+    },
+    "carlos-isaac": {
+        "id": "carlos-isaac",
+        "seo": {
+            "title": "FC: Carlos Isaac 💚"
+        },
+        "profile": {
+            "name": "Carlos Isaac",
+            "firstName": "Carlos Isaac",
+            "lastName": "Hernández Gutiérrez",
+            "bornDate": "2010-06-14T00:00:00"
+        },
+        "social": {
+            "instagram": "https://www.instagram.com/carlosisaac_/",
+            "twitter": null,
+            "facebook": null,
+            "linkedin": null,
+            "github": null,
+            "website": null
+        },
+        "content": {
+            "password": null,
+            "message": "Feliz cumpleaños, espero que la pases increíble y que te regalen muchas cosas, aunque no sé qué cosas te podrían regalar porque no sé qué cosas te gustan :v.",
+            "quotes": [],
+            "phrases": []
+        },
+        "appearance": {
+            "theme": {
+                "backgroundColor": "#050505",
+                "primaryColor": "#90e0ef",
+                "secondaryColor": "#15277c",
+                "complementaryColor": [
+                    "#90e0ef40",
+                    "#90e0ef1f"
+                ]
             },
-            {
-                "title": "money.jpg",
-                "url": "https://www.instagram.com/stories/highlights/18005310149610234/",
-                "alt": "Ramo hecho con billetes de $100 mxn.",
-                "type": "image/jpeg",
-                "style": ""   
-            },
-            {
-                "title": "beach.jpg",
-                "url": "https://www.instagram.com/stories/highlights/17905443966211232/",
-                "alt": "Panorama de la playa, mar y cielo azul.",
+            "decorations": {
+                "linesColor": "#90e0ef"
+            }
+        },
+        "media": {
+            "mainPhoto": {
+                "title": "front.jpg",
+                "alt": "Carlos Isaac.",
                 "type": "image/jpeg",
                 "style": ""
             },
-            {
-                "title": "heart-arcs.jpg",
-                "url": "https://www.instagram.com/stories/highlights/18111625054586626/",
-                "alt": "Pasadiso de Arcos con rosas rojas.",
-                "type": "image/jpeg",
-                "style": ""   
-            },
-            {
-                "title": "disgusting-cat-meme.jpg",
-                "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ",
-                "alt": "Meme del gato con cara de asco.",
-                "type": "image/jpeg",
-                "style": ""
-            }
-        ],
-        "songList": [
-            {
-                "title": "Las Mañanotas",
-                "filename": "las_mannanotas.mp3",
-                "alt": "Las mañanitas cantadas por Ariel Camacho y los Plebes del Rancho.",
-                "type": "audio/mpeg"
-            }
-        ],
-        "bgDecoration": {
-            "heartsColor": {
-                "cel": "#dbb6eeee",
-                "pc": "#9032bb"
-            }
+            "galleryPhotos": [],
+            "songs": [],
+            "mafia": null
         }
     }
 }

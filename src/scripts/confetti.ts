@@ -20,6 +20,6 @@ export function launchBirthdayConfetti(colors: string[] | null = null) {
 }
 
 export function launchConfettiForPerson(person: PersonBirthdayData) {
-    const confettiColors = person.theme?.complementaryColor ?? null;
+    const confettiColors = person.appearance.theme.complementaryColor ?? null;
     launchBirthdayConfetti(confettiColors);
 }

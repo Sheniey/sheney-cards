@@ -20,25 +20,25 @@ export interface AlbumProps {
 }
 
 const { personData } = Astro.props as AlbumProps;
-const quotes = personData.quotes ?? [];
+const quotes = personData.content.quotes;
 const hasQuote = quotes.length > 0;
 
 const styles: Record<string, [string, string]> = {
     body: [
         "album-page min-h-screen relative overflow-x-hidden",
         `
-            color: ${personData.theme.secondaryColor};
-            background: ${personData.theme.backgroundColor};
-            --theme-primary-color: ${personData.theme.primaryColor};
-            --theme-secondary-color: ${personData.theme.secondaryColor};
-            --quote-text-color: ${personData.theme.complementaryColor?.[2] ?? personData.theme.primaryColor};
-            --quote-wrap-color: ${personData.theme.complementaryColor?.[3] ?? personData.theme.secondaryColor + "c5"};
-            --quote-qmark-color: ${personData.theme.complementaryColor?.[4] ?? personData.theme.primaryColor + "c5"};
-            --quote-border-color: ${personData.theme.complementaryColor?.[5] ?? personData.theme.secondaryColor + '24'};
-            --quote-shadow1-color: ${personData.theme.complementaryColor?.[6] ?? personData.theme.secondaryColor + '47'};
-            --quote-shadow2-color: ${personData.theme.complementaryColor?.[7] ?? personData.theme.secondaryColor + '1f'};
-            --music-pulse-compl1-color: ${personData.theme.complementaryColor?.[0] ?? personData.theme.primaryColor + "40"};
-            --music-pulse-compl2-color: ${personData.theme.complementaryColor?.[1] ?? personData.theme.primaryColor + "1f"};
+            color: ${personData.appearance.theme.secondaryColor};
+            background: ${personData.appearance.theme.backgroundColor};
+            --theme-primary-color: ${personData.appearance.theme.primaryColor};
+            --theme-secondary-color: ${personData.appearance.theme.secondaryColor};
+            --quote-text-color: ${personData.appearance.theme.complementaryColor?.[2] ?? personData.appearance.theme.primaryColor};
+            --quote-wrap-color: ${personData.appearance.theme.complementaryColor?.[3] ?? personData.appearance.theme.secondaryColor + "c5"};
+            --quote-qmark-color: ${personData.appearance.theme.complementaryColor?.[4] ?? personData.appearance.theme.primaryColor + "c5"};
+            --quote-border-color: ${personData.appearance.theme.complementaryColor?.[5] ?? personData.appearance.theme.secondaryColor + '24'};
+            --quote-shadow1-color: ${personData.appearance.theme.complementaryColor?.[6] ?? personData.appearance.theme.secondaryColor + '47'};
+            --quote-shadow2-color: ${personData.appearance.theme.complementaryColor?.[7] ?? personData.appearance.theme.secondaryColor + '1f'};
+            --music-pulse-compl1-color: ${personData.appearance.theme.complementaryColor?.[0] ?? personData.appearance.theme.primaryColor + "40"};
+            --music-pulse-compl2-color: ${personData.appearance.theme.complementaryColor?.[1] ?? personData.appearance.theme.primaryColor + "1f"};
         `,
     ],
 };
@@ -47,13 +47,14 @@ const styles: Record<string, [string, string]> = {
 <html lang="es">
     <head>
         <Metadata
-            title={personData.title}
-            name={`${personData.firstName} ${personData.lastName}`}
-            message={personData.message}
+            title={personData.seo.title}
+            personId={personData.id}
+            name={`${personData.profile.firstName} ${personData.profile.lastName}`}
+            message={personData.content.message}
             theme={{
-                backgroundColor: personData.theme.backgroundColor,
-                primaryColor: personData.theme.primaryColor,
-                secondaryColor: personData.theme.secondaryColor,
+                backgroundColor: personData.appearance.theme.backgroundColor,
+                primaryColor: personData.appearance.theme.primaryColor,
+                secondaryColor: personData.appearance.theme.secondaryColor,
             }}
         />
 
@@ -61,7 +62,7 @@ const styles: Record<string, [string, string]> = {
     </head>
 
     <body class={styles.body[0]} style={styles.body[1]}>
-        <BackgroundHearts heartsColor={personData.bgDecoration?.heartsColor ?? { cel: personData.theme.secondaryColor, pc: personData.theme.primaryColor }} />
+        <BackgroundHearts heartsColor={personData.appearance.decorations?.heartsColor ?? { cel: personData.appearance.theme.secondaryColor, pc: personData.appearance.theme.primaryColor }} />
 
         <Container contentSpace="full">
             <div class="album">
@@ -70,7 +71,7 @@ const styles: Record<string, [string, string]> = {
                         <MainPhoto personData={personData} className="album-photo">
                             <MusicPlayerFrame
                                 personData={personData}
-                                songs={personData.songList ?? undefined}
+                                songs={personData.media.songs}
                                 targetClass="album-photo"
                             />
                         </MainPhoto>
@@ -80,8 +81,8 @@ const styles: Record<string, [string, string]> = {
                             transition:name="name"
                             transition:animate="slide"
                         >
-                            <span>{personData.firstName}</span>
-                            <span>{personData.lastName}</span>
+                            <span>{personData.profile.firstName}</span>
+                            <span>{personData.profile.lastName}</span>
                         </h1>
                     </div>
                 </section>
@@ -131,7 +132,7 @@ const styles: Record<string, [string, string]> = {
 
                     <br />
 
-                    <PhotoVentoGrid personData={personData} titleColor={personData.theme.primaryColor} />
+                    <PhotoVentoGrid personData={personData} titleColor={personData.appearance.theme.primaryColor} />
                 
                     <br />
 
@@ -153,7 +154,7 @@ const styles: Record<string, [string, string]> = {
         
         <Author />
         <FeedbackLabel label="Hubiera quedado chido el BENTO GRID en PC y con más fotos :c" />
-        <Confetti confettiColors={personData.theme.complementaryColor} />
+        <Confetti confettiColors={personData.appearance.theme.complementaryColor} />
     </body>
 </html>
 

@@ -1,0 +1,88 @@
+---
+export interface SimplyTerminaCmdProps {
+    ident?: number;
+    mark: string;
+    command: string;
+}
+const { ident = 0, mark, command } = Astro.props as SimplyTerminaCmdProps;
+---
+
+<span class="terminal-line terminal-typing" style={`--ident: ${ident}`}>
+    <span class="ident"></span>
+    <span class="mark">{mark}</span>
+    <pre class="command">{command}</pre>
+    <span class="cursor">|</span>
+</span>
+
+<script>
+    window.addEventListener('load', () => {
+        document.querySelectorAll('.terminal-typing').forEach((line) => {
+            const command = line.querySelector('.command');
+            const cursor = line.querySelector('.cursor');
+
+            if (!command) return;
+
+            const fullText = command.textContent ?? '';
+
+            command.textContent = '';
+
+            let index = 0;
+
+            const type = () => {
+                if (index < fullText.length) {
+                    command.textContent += fullText[index++];
+                    setTimeout(type, 20 + Math.random() * 50);
+                } else {
+                    cursor?.classList.add('hidden');
+                }
+            };
+
+            type();
+        });
+    });
+</script>
+
+<style>
+    .terminal-line {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-family: monospace;
+    }
+
+    .ident {
+        display: inline-block;
+        width: calc(1.4ch * var(--ident));
+    }
+
+    .mark {
+        display: inline-block;
+        color: #484848;
+        font-size: clamp(0.7rem, 2vw, 1.1rem);
+        font-weight: bold;
+    }
+
+    .command {
+        color: #2adf7f;
+        font-size: clamp(0.7rem, 2vw, 1.1rem);
+        margin: 0;
+        white-space: pre-wrap;
+    }
+
+    .cursor {
+        color: #2adf7f;
+        font-size: clamp(0.7rem, 2vw, 1.1rem);
+        animation: blink 1s steps(1) infinite;
+        transition: opacity .3s ease;
+    }
+
+    .cursor.hidden {
+        opacity: 0;
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+</style>

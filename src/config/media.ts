@@ -4,10 +4,14 @@ export const MEDIA = {
     musicPath: '/music',
 } as const;
 
-export function getPhotoURL(nameId: string, title: string): string {
-    return `${MEDIA.photosPath}/${nameId}/${title}`;
+export function getPersonPhotoURL(personId: string, photoName: string): string {
+    return `${MEDIA.photosPath}/${personId}/${photoName}`;
 }
 
-export function getMusicURL(title: string): string {
-    return `${MEDIA.musicPath}/${title}`;
+export function getPhotoURL(nameId: string, title: string): string {
+    return getPersonPhotoURL(nameId, title);
+}
+
+export function getMusicURL(fileName: string): string {
+    return `${MEDIA.musicPath}/${fileName}`;
 }

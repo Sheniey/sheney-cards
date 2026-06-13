@@ -10,7 +10,7 @@ export interface MusicPlayerFrameProps {
 
 const defaultSong: Song = {
     title: 'Las Mañanitas',
-    filename: media.getMusicURL('mañanitas.mp3'),
+    filename: media.getMusicURL('mannanitas.mp3'),
     alt: 'Las Mañanitas cantadas por Vicente Fernández',
     type: 'audio/mpeg',
 };
@@ -29,7 +29,7 @@ const buttonId = `music-toggle-${playerId}`;
 const iconId = `music-icon-${playerId}`;
 const textId = `music-text-${playerId}`;
 const audioId = `song-${playerId}`;
-const storageKey = `birthday-current-song-${personData.nameId}`;
+const storageKey = `birthday-current-song-${personData.id}`;
 
 const Icons = {
     play: '<svg style="fill: currentColor; color: inherit;" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor"><path d="M336-216v-528l408 264-408 264Zm73-265Zm-1 133 204-132-204-132v264Z"/></svg>',
@@ -37,10 +37,10 @@ const Icons = {
 };
 
 const CSSVariables = `
-    --music-btn-primary: ${personData.theme.primaryColor};
-    --music-btn-secondary: ${personData.theme.secondaryColor};
-    --music-btn-compl1: ${personData.theme.primaryColor}40;
-    --music-btn-compl2: ${personData.theme.primaryColor}a6;
+    --music-btn-primary: ${personData.appearance.theme.primaryColor};
+    --music-btn-secondary: ${personData.appearance.theme.secondaryColor};
+    --music-btn-compl1: ${personData.appearance.theme.primaryColor}40;
+    --music-btn-compl2: ${personData.appearance.theme.primaryColor}a6;
 `;
 
 const getPlayLabel = (songName: string) => `Reproducir ${songName}`;
@@ -62,16 +62,6 @@ const getPauseLabel = (songName: string) => `Pausar ${songName}`;
 <audio id={audioId}>
     <source src={initialSong.filename} type={initialSong.type} />
 </audio>
-
-<script>
-    const audio = document.getElementById('audio');
-
-    if (audio) {
-        audio?.addEventListener('loadedmetadata', () => {
-            audio.currentTime = 23;
-        });
-    }
-</script>
 
 <script
     define:vars={{

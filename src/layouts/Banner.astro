@@ -22,27 +22,29 @@ const styles: Record<string, [string, string]> = {
     body: [
         "min-h-screen relative overflow-x-hidden max-lg:overflow-x-hidden max-lg:overflow-y-auto",
         `
-            color: ${personData.theme.secondaryColor};
-            background: ${personData.theme.backgroundColor};
-            --theme-primary-color: ${personData.theme.primaryColor};
-            --theme-secondary-color: ${personData.theme.secondaryColor};
-            --music-pulse-compl1-color: ${personData.theme.complementaryColor?.[0] ?? personData.theme.primaryColor + '40'};
-            --music-pulse-compl2-color: ${personData.theme.complementaryColor?.[1] ?? personData.theme.primaryColor + '1f'};
+            color: ${personData.appearance.theme.secondaryColor};
+            background: ${personData.appearance.theme.backgroundColor};
+            --theme-primary-color: ${personData.appearance.theme.primaryColor};
+            --theme-secondary-color: ${personData.appearance.theme.secondaryColor};
+            --music-pulse-compl1-color: ${personData.appearance.theme.complementaryColor?.[0] ?? personData.appearance.theme.primaryColor + '40'};
+            --music-pulse-compl2-color: ${personData.appearance.theme.complementaryColor?.[1] ?? personData.appearance.theme.primaryColor + '1f'};
         `,
     ],
 };
 ---
 
+<!DOCTYPE html>
 <html lang="es">
     <head>
         <Metadata
-            title={personData.title}
-            name={`${personData.firstName} ${personData.lastName}`}
-            message={personData.message}
+            title={personData.seo.title}
+            personId={personData.id}
+            name={`${personData.profile.firstName} ${personData.profile.lastName}`}
+            message={personData.content.message}
             theme={{
-                backgroundColor: personData.theme.backgroundColor,
-                primaryColor: personData.theme.primaryColor,
-                secondaryColor: personData.theme.secondaryColor,
+                backgroundColor: personData.appearance.theme.backgroundColor,
+                primaryColor: personData.appearance.theme.primaryColor,
+                secondaryColor: personData.appearance.theme.secondaryColor,
             }}
         />
 
@@ -50,14 +52,14 @@ const styles: Record<string, [string, string]> = {
     </head>
 
     <body class={styles.body[0]} style={styles.body[1]}>
-        <BackgroundLines linesColor={personData.bgDecoration?.linesColor ?? { pc: personData.theme.primaryColor, cel: personData.theme.primaryColor }} />
+        <BackgroundLines linesColor={personData.appearance.decorations?.linesColor ?? { pc: personData.appearance.theme.primaryColor, cel: personData.appearance.theme.primaryColor }} />
 
         <Container contentSpace="centered">
             <div class="card">
                 <MainPhoto personData={personData} className="photo">
                     <MusicPlayerFrame
                         personData={personData}
-                        songs={personData.songList ?? undefined}
+                        songs={personData.media.songs}
                         targetClass="photo"
                     />
                 </MainPhoto>
@@ -69,8 +71,8 @@ const styles: Record<string, [string, string]> = {
                         transition:name="name"
                         transition:animate="slide"
                     >
-                        <span style="display: block;">{personData.firstName}</span>
-                        <span style="display: block;">{personData.lastName}</span>
+                        <span style="display: block;">{personData.profile.firstName}</span>
+                        <span style="display: block;">{personData.profile.lastName}</span>
                     </h1>
 
                     <p
@@ -84,9 +86,9 @@ const styles: Record<string, [string, string]> = {
                     <LifeCount personData={personData} size="mid" />
 
                     <TypewrittingEffect
-                        phrases={personData.phrases ?? []}
+                        phrases={personData.content.phrases}
                         fixedText="Eres "
-                        color={personData.theme.primaryColor}
+                        color={personData.appearance.theme.primaryColor}
                     />
                 </div>
             </div>
@@ -94,7 +96,7 @@ const styles: Record<string, [string, string]> = {
 
         <Author />
 
-        <Confetti confettiColors={personData.theme.complementaryColor} />
+        <Confetti confettiColors={personData.appearance.theme.complementaryColor} />
     </body>
 </html>
 

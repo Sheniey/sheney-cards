@@ -1,0 +1,394 @@
+---
+import "@/styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import type { PersonBirthdayData } from "@/types";
+
+import Metadata from "@/components/Metadata.astro";
+import MafiaCaroucel from "@/components/MafiaCaroucel.astro";
+import WindowModal from "@/components/WindowModal.astro";
+import MainPhoto from "@/components/MainPhoto.astro";
+import LifeCount from "@/components/LifeCount.astro";
+import TypewrittingEffect from "@/components/TypewrittingEffect.astro";
+import SimplyTerminalCmd from "@/components/SimplyTerminalCmd.astro";
+import Confetti from "@/components/Confetti.astro";
+import Author from "@/components/Author.astro";
+
+export interface MobsterLayoutProps {
+    personData: PersonBirthdayData;
+}
+
+const { personData } = Astro.props as MobsterLayoutProps;
+const password = personData.content.password;
+
+if (!personData.media.mafia) {
+    throw new Error(`${personData.profile.firstName} ${personData.profile.lastName} data must include mafia config`);
+}
+
+const styles: Record<string, [string, string]> = {
+    body: [
+        "min-h-screen relative overflow-x-hidden max-lg:overflow-x-hidden max-lg:overflow-y-auto",
+        `
+            color: ${personData.appearance.theme.secondaryColor};
+            background: ${personData.appearance.theme.backgroundColor};
+            --theme-primary-color: ${personData.appearance.theme.primaryColor};
+            --theme-secondary-color: ${personData.appearance.theme.secondaryColor};
+            --background-color: ${personData.appearance.theme.backgroundColor};
+            --music-pulse-compl1-color: ${personData.appearance.theme.complementaryColor?.[0] ?? personData.appearance.theme.primaryColor + '40'};
+            --music-pulse-compl2-color: ${personData.appearance.theme.complementaryColor?.[1] ?? personData.appearance.theme.primaryColor + '1f'};
+        `.trim(),
+    ],
+};
+---
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <Metadata
+            title={personData.seo.title}
+            personId={personData.id}
+            name={`${personData.profile.firstName} ${personData.profile.lastName}`}
+            message={personData.content.message}
+            theme={{
+                backgroundColor: personData.appearance.theme.backgroundColor,
+                primaryColor: personData.appearance.theme.primaryColor,
+                secondaryColor: personData.appearance.theme.secondaryColor,
+            }}
+        />
+
+        <ClientRouter />
+    </head>
+
+    <body class={styles.body[0]} style={styles.body[1]}>
+        <main class="container">
+            <section class="title">
+                <h1>{personData.profile.name}'s Files</h1>
+            </section>
+            <section class="subtitles" style={`color: var(--theme-primary-color);`}>
+                <h2 class="subtitle main-subtitle">
+                    <span>MISSION</span>
+                    <span>Cumpleaños</span>
+                </h2>
+                <h2 class="subtitle main-subtitle">
+                    <span>TARGET</span>
+                    <span>Mafía de {personData.media.mafia.mvp.wantedPerson} {'>:3'}</span>
+                </h2>
+                <h2 class="subtitle main-subtitle">
+                    <span>OBJECTIVE</span>
+                    <span>Desbloquear la carta de felicitación de {personData.profile.firstName} {personData.profile.lastName}.</span>
+                </h2>
+            </section>
+
+            <MafiaCaroucel
+                mafiaMVPerson={personData}
+                mafiaData={personData.media.mafia}
+                palette={{
+                    background: personData.appearance.theme.backgroundColor,
+                    text: personData.appearance.theme.primaryColor,
+                    alive: "#26de81",
+                    dead: "#ff4d4f",
+                    shadow: `${personData.appearance.theme.primaryColor}66`,
+                }}
+            >
+                <WindowModal
+                    slot="custom-mvp-modal"
+                    id="mafia-mvp-modal"
+                    classModal="mvp-modal"
+                    classTitle="mvp-title"
+                    title={`${personData.profile.name}'s Secrets`}
+                    password={password}
+                    palette={{
+                        borderColor: `#278d57`,
+                        glowColor: `${personData.appearance.theme.primaryColor}8c`,
+                        contentColor: `#278d57`,
+                        toolbarBackground: personData.appearance.theme.backgroundColor,
+                        windowBackground: '#121212',
+                    }}
+                >
+                    <article class="mvp-dossier">
+                        <MainPhoto personData={personData} className="mvp-main-photo" />
+
+                        <section class="mvp-content">
+                            <h2 class="subtitle mvp-subtitle">
+                                ¡Felicidades, lo has conseguido!
+                            </h2>
+                            <p class="mvp-description">
+                                El objetivo fue completado con éxito. Enhorabuena ahora has sobrevivido...
+                            </p>
+
+                            <LifeCount personData={personData} className="mvp-life-count" size="large" />
+
+                            <TypewrittingEffect
+                                phrases={personData.content.phrases}
+                                fixedText="Estado: una chica "
+                                color={personData.appearance.theme.primaryColor}
+                                className="mvp-typewriter"
+                            />
+                        </section>
+                    </article>
+                </WindowModal>
+
+                <WindowModal
+                    slot="custom-common-modal"
+                    id="mafia-common-modal"
+                    title='<Aviso>'
+                    palette={{
+                        borderColor: `#278d57`,
+                        glowColor: `${personData.appearance.theme.primaryColor}8c`,
+                        contentColor: `#278d57`,
+                        toolbarBackground: personData.appearance.theme.backgroundColor,
+                        windowBackground: '#121212',
+                    }}
+                >
+                    <article class="common-dossier">
+                        <SimplyTerminalCmd
+                            ident={0}
+                            mark=">"
+                            command={'SQL.run(SELECT status, password FROM Target.name) as KareliDB::UserModels;'}
+                        />
+                        <SimplyTerminalCmd
+                            ident={1}
+                            mark=":"
+                            command={`Target Status --- <Neutralized> x]`}
+                        />
+                        <SimplyTerminalCmd
+                            ident={1}
+                            mark=":"
+                            command={`Password Detected --- <${password}> :o`}
+                        />
+                        <SimplyTerminalCmd
+                            ident={1}
+                            mark=";"
+                            command=''
+                        />
+                        <SimplyTerminalCmd
+                            ident={0}
+                            mark="?"
+                            command={`Siguiente Paso --- Desbloquear los Kareli's Secrets >:3`}
+                        />
+                    </article>
+                </WindowModal>
+            </MafiaCaroucel>
+        </main>
+
+        <Author />
+    </body>
+</html>
+
+<style is:global>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Inter, system-ui, sans-serif;
+    }
+
+    .container {
+        min-height: 100vh;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .title {
+        text-align: center;
+        margin: 2rem 1rem 2.8rem;
+        position: relative;
+    }
+
+    .title h1 {
+        display: inline-block;
+        font-weight: 900;
+        font-size: clamp(2rem, 6vw, 3.7rem);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        line-height: 1.1;
+        color: var(--theme-primary-color);
+        text-shadow:
+            0 0 10px color-mix(in srgb, var(--theme-primary-color) 48%, transparent),
+            0 0 28px color-mix(in srgb, var(--theme-primary-color) 35%, transparent),
+            0 3px 0 var(--background-color);
+        padding: 0.45rem 1.2rem 0.95rem;
+        border: 1px solid color-mix(in srgb, var(--theme-primary-color) 45%, transparent);
+        border-radius: 0.9rem;
+        background:
+            linear-gradient(180deg, color-mix(in srgb, var(--theme-primary-color) 14%, transparent), transparent),
+            color-mix(in srgb, var(--background-color) 60%, transparent);
+        box-shadow:
+            0 12px 28px color-mix(in srgb, var(--background-color) 58%, transparent),
+            inset 0 0 0 1px color-mix(in srgb, var(--theme-primary-color) 24%, transparent);
+        position: relative;
+        isolation: isolate;
+    }
+
+    .title h1::after {
+        content: "";
+        position: absolute;
+        inset: auto 18% -0.45rem;
+        height: 0.65rem;
+        border-radius: 999px;
+        background: radial-gradient(circle, color-mix(in srgb, var(--theme-primary-color) 52%, transparent) 0%, transparent 76%);
+        z-index: -1;
+    }
+
+    .subtitles {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin: 0 auto 2.8rem;
+        max-width: min(980px, 100%);
+    }
+
+    .main-subtitle {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+        padding: 0.9rem 1.1rem;
+        border-radius: 0.85rem;
+        border-left: 4px solid color-mix(in srgb, var(--theme-primary-color) 75%, #ffffff 10%);
+        border-right: 4px solid color-mix(in srgb, var(--theme-primary-color) 75%, #ffffff 10%);
+        border-top: 1px solid color-mix(in srgb, var(--theme-primary-color) 24%, transparent);
+        border-bottom: 1px solid color-mix(in srgb, var(--theme-primary-color) 24%, transparent);
+        background:
+            linear-gradient(
+                90deg,
+                color-mix(in srgb, var(--theme-primary-color) 20%, transparent) 0%,
+                var(--background-color) 50%,
+                color-mix(in srgb, var(--theme-primary-color) 20%, transparent) 100%
+            );
+        font-size: clamp(1rem, 2.1vw, 1.2rem);
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        line-height: 1.45;
+        text-wrap: balance;
+        text-shadow: 0 0 10px color-mix(in srgb, var(--theme-primary-color) 24%, transparent);
+        box-shadow:
+            0 8px 18px color-mix(in srgb, var(--background-color) 52%, transparent),
+            inset 0 0 0 1px color-mix(in srgb, var(--theme-primary-color) 14%, transparent);
+        backdrop-filter: blur(2px);
+        transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .main-subtitle:hover {
+        transform: translateY(-2px);
+        border-left-color: color-mix(in srgb, var(--theme-primary-color) 88%, #fff 12%);
+        box-shadow:
+            0 14px 24px color-mix(in srgb, var(--background-color) 60%, transparent),
+            0 0 24px color-mix(in srgb, var(--theme-primary-color) 24%, transparent),
+            inset 0 0 0 1px color-mix(in srgb, var(--theme-primary-color) 24%, transparent);
+    }
+
+    .main-subtitle span {
+        align-self: center;
+    }
+    
+    .main-subtitle span:first-child {
+        color: var(--music-pulse-compl1-color);
+    }
+    
+    .mvp-modal {
+        border-color: var(--theme-primary-color) !important;
+        overflow: hidden;
+    }
+
+    .mvp-title {
+        color: var(--theme-primary-color) !important;
+    }
+
+    .mvp-dossier {
+        display: grid;
+        grid-template-columns: minmax(240px, 310px) minmax(0, 1fr);
+        align-items: center;
+        gap: clamp(1rem, 2vw, 2rem);
+        border-radius: 1rem;
+        padding: clamp(0.8rem, 2.5vw, 1.4rem);
+        border: 1px solid color-mix(in srgb, var(--theme-primary-color) 30%, transparent);
+        background:
+            radial-gradient(circle at 15% 15%, color-mix(in srgb, var(--theme-primary-color) 18%, transparent), transparent 58%),
+            linear-gradient(180deg, color-mix(in srgb, #ffffff 3%, transparent), color-mix(in srgb, #000000 16%, transparent));
+    }
+
+    .mvp-main-photo {
+        margin: 0 auto;
+        width: clamp(230px, 26vw, 300px) !important;
+        height: clamp(230px, 26vw, 300px) !important;
+        border-width: 4px !important;
+        border-radius: 32px !important;
+        border-color: var(--theme-primary-color) !important;
+        box-shadow:
+            0 0 40px color-mix(in srgb, var(--theme-primary-color) 26%, transparent),
+            0 0 70px color-mix(in srgb, var(--theme-primary-color) 18%, transparent) !important;
+    }
+
+    .mvp-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .mvp-subtitle {
+        margin: 0 0 0.5rem;
+        font-size: clamp(1.4rem, 2.6vw, 2rem);
+        line-height: 1.2;
+        text-align: left;
+        color: var(--theme-primary-color);
+        text-shadow: 0 0 10px color-mix(in srgb, var(--theme-primary-color) 30%, transparent);
+    }
+
+    .mvp-description {
+        margin: 0 0 0.6rem;
+        max-width: 58ch;
+        font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+        line-height: 1.55;
+        color: color-mix(in srgb, var(--theme-secondary-color) 85%, #fff 15%);
+    }
+
+    #hours-count,
+    #minutes-count,
+    #seconds-count {
+        display: none;
+    }
+
+    .mvp-life-count {
+        margin-bottom: 0.6rem;
+    }
+
+    .mvp-content .typewriter-effect.mvp-typewriter {
+        margin: 0.3rem 0 0;
+        font-size: clamp(1rem, 2vw, 1.45rem);
+        line-height: 1.4;
+        text-align: left;
+    }
+
+    @media (max-width: 900px) {
+        .mvp-dossier {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .mvp-content {
+            align-items: center;
+        }
+
+        .mvp-subtitle,
+        .mvp-description,
+        .mvp-content .typewriter-effect.mvp-typewriter {
+            text-align: center;
+        }
+
+        .mvp-life-count #hours-count,
+        .mvp-life-count #minutes-count,
+        .mvp-life-count #seconds-count {
+            display: block;
+        }
+
+        .mvp-content .life-counter {
+            justify-content: center;
+        }
+    }
+</style>

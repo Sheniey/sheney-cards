@@ -8,7 +8,7 @@ export interface MainPhotoProps {
 }
 const { personData, className = 'photo' } = Astro.props as MainPhotoProps;
 
-const photoURL = media.getPhotoURL(personData.nameId, personData.mainPhoto.title);
+const photoURL = media.getPersonPhotoURL(personData.id, personData.media.mainPhoto.title);
 ---
 
 <div class="photo-container flex flex-col items-center">
@@ -17,31 +17,31 @@ const photoURL = media.getPhotoURL(personData.nameId, personData.mainPhoto.title
             ${className}
         `}
         style={`
-            --mphoto-primary-color: ${personData.theme.primaryColor};
-            --mphoto-secondary-color: ${personData.theme.secondaryColor};
-            --mphoto-compl1-color: ${personData.theme.complementaryColor?.[0] ?? personData.theme.primaryColor + '40'};
-            --mphoto-compl2-color: ${personData.theme.complementaryColor?.[1] ?? personData.theme.primaryColor + '1f'};
-            --mphoto-compl3-color: ${personData.theme.complementaryColor?.[2] ?? personData.theme.primaryColor + 'a6'};
-            ${personData.mainPhoto.style ?? ''}
+            --mphoto-primary-color: ${personData.appearance.theme.primaryColor};
+            --mphoto-secondary-color: ${personData.appearance.theme.secondaryColor};
+            --mphoto-compl1-color: ${personData.appearance.theme.complementaryColor?.[0] ?? personData.appearance.theme.primaryColor + '40'};
+            --mphoto-compl2-color: ${personData.appearance.theme.complementaryColor?.[1] ?? personData.appearance.theme.primaryColor + '1f'};
+            --mphoto-compl3-color: ${personData.appearance.theme.complementaryColor?.[2] ?? personData.appearance.theme.primaryColor + 'a6'};
+            ${personData.media.mainPhoto.style ?? ''}
         `}   
     >
         {
-            personData.links.instagram ? (
+            personData.social.instagram ? (
                 <a
-                    href={personData.links.instagram}
+                    href={personData.social.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
                     <img
                         src={photoURL}
-                        alt={personData.mainPhoto.alt}
+                        alt={personData.media.mainPhoto.alt}
                         loading="eager"
                     />
                 </a>
             ) : (
                 <img
                     src={photoURL}
-                    alt={personData.mainPhoto.alt}
+                    alt={personData.media.mainPhoto.alt}
                     loading="eager"
                     transition:name="main-photo"
                     transition:animate="fade"
