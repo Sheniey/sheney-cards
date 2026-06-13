@@ -63,7 +63,7 @@ const styles: Record<string, [string, string]> = {
     <body class={styles.body[0]} style={styles.body[1]}>
         <BackgroundStrange itemsColor={personData.appearance.decorations?.strangeBgColor ?? { cel: personData.appearance.theme.primaryColor, pc: personData.appearance.theme.secondaryColor }} />
 
-        <audio src={media.getMusicURL(personData.media.songs?.[0].filename)} autoplay loop hidden />
+        <audio src={media.getMusicURL(personData.media.songs?.[0].filename)} preload="metadata" autoplay loop hidden />
 
         <main class="container">
             <section class="title">
