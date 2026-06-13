@@ -1,16 +1,19 @@
 
 from pathlib import Path
 from enum import StrEnum
+from rich.console import Console
+
+console = Console()
 
 class FileType(StrEnum):
-    STYLING = '<style>'
-    SCRIPTING = '<script>'
-    DATA = '<data>'
-    MARKDOWN = '<markdown>'
-    CODING = '<code>'
+    STYLING = '<estilo>'
+    SCRIPTING = '<interactividad>'
+    DATA = '<base de datos>'
+    MARKDOWN = '<documentación>'
+    CODING = '<código>'
 
 files: int = 0
-lines_count: list[tuple[FileType, str, int]] = []
+lines_count: list[tuple[FileType, str, int, int]] = []
 
 def extract_lines() -> None:
     global files
@@ -30,19 +33,22 @@ def extract_lines() -> None:
                         FileType.MARKDOWN if file.suffix in ['.md', '.txt'] else
                         FileType.CODING,
                         file.name,
-                        len(content.splitlines())
+                        len(content.splitlines()),
+                        len(content.split())
                     )
                 )
 
 def log_results() -> None:
     print()
-    total_lines = sum(count for _, _, count in lines_count)
-    print(f'Total lines of code: {total_lines} | Total files: {files}\n')
+    total_lines = sum(count for _, _, count, _ in lines_count)
+    total_words = sum(words for _, _, _, words in lines_count)
+    console.print(f'[green]Lineas totales de código: [yellow]{total_lines} lineas[/yellow] | Palabras totales: [yellow]{total_words} palabras[/yellow] | Archivos Totales: [yellow]{files} archivos[/yellow][/green]\n')
     for file_type in FileType:
-        type_lines = sum(count for ft, _, count in lines_count if ft == file_type)
-        print(f'{file_type.value} lines: {type_lines}')
-    print()
+        type_lines = sum(count for ft, _, count, _ in lines_count if ft == file_type)
+        console.print(f'[red]{file_type.value}[/red] [green]lineas:[/green] [yellow]{type_lines} lineas[/yellow]')
+    console.print()
 
+# kareli is next :3 | let's resolve the puzzle
 def main() -> None:
     extract_lines()
     log_results()

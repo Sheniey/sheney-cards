@@ -194,7 +194,7 @@
         "profile": {
             "name": "Kareli",
             "firstName": "Kareli Yazmín",
-            "lastName": "Arechiga Velázco",
+            "lastName": "Arechiga Velásco",
             "bornDate": "2010-06-13T00:00:00"
         },
         "social": {
@@ -207,7 +207,7 @@
         },
         "content": {
             "password": "kareli2010",
-            "message": "Felicitaciones Kareli, .",
+            "message": "Quizás no te agrade del todo la estética de hackerar y cyberpunk, me arrepentí despues; anyway, japi verdei Kareli Ruíz.",
             "quotes": [],
             "phrases": [
                 "divertida... xD",
@@ -245,7 +245,7 @@
                 "mvp": {
                     "title": "kareli-wanted.webp",
                     "summary": null,
-                    "alt": "Simplemente una Foto de Kareli.",
+                    "alt": "Simplemente una Foto de Kareli Velasco.",
                     "type": "image/webp",
                     "style": "",
                     "status": "alive",
@@ -259,7 +259,7 @@
                     {
                         "title": "evelyn-wanted.webp",
                         "summary": null,
-                        "alt": "Simplemente una Foto de Evelyn.",
+                        "alt": "Simplemente una Foto de Evelyn Denice.",
                         "type": "image/webp",
                         "style": "",
                         "status": "dead",
@@ -272,7 +272,7 @@
                     {
                         "title": "daniel-wanted.webp",
                         "summary": null,
-                        "alt": "Simplemente una Foto de Daniel.",
+                        "alt": "Simplemente una Foto de José Daniel.",
                         "type": "image/webp",
                         "style": "",
                         "status": "dead",
@@ -281,6 +281,32 @@
                         "age": null,
                         "importance_lvl": 4,
                         "villainColor": "#fcefb4"
+                    },
+                    {
+                        "title": "alan-wanted.webp",
+                        "summary": null,
+                        "alt": "Simplemente una Foto de Alan.",
+                        "type": "image/webp",
+                        "style": "",
+                        "status": "dead",
+                        "wantedPerson": "Alambrito",
+                        "occupation": "Muerto de Hambre",
+                        "age": null,
+                        "importance_lvl": 2,
+                        "villainColor": "#b7cd7f"
+                    },
+                    {
+                        "title": "dafne-wanted.png",
+                        "summary": null,
+                        "alt": "Simplemente una Foto de Dafne.",
+                        "type": "image/png",
+                        "style": "",
+                        "status": "dead",
+                        "wantedPerson": "D4fne",
+                        "occupation": "Lavado de Dinero",
+                        "age": null,
+                        "importance_lvl": 4,
+                        "villainColor": "#ff69b4"
                     }
                 ]
             }
