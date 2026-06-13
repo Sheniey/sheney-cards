@@ -194,7 +194,7 @@
         "profile": {
             "name": "Kareli",
             "firstName": "Kareli Yazmín",
-            "lastName": "Arechiga Velásco",
+            "lastName": "Aréchiga Velásco",
             "bornDate": "2010-06-13T00:00:00"
         },
         "social": {
@@ -291,7 +291,7 @@
                         "status": "dead",
                         "wantedPerson": "Alambrito",
                         "occupation": "Muerto de Hambre",
-                        "age": null,
+                        "age": 15,
                         "importance_lvl": 2,
                         "villainColor": "#b7cd7f"
                     },
