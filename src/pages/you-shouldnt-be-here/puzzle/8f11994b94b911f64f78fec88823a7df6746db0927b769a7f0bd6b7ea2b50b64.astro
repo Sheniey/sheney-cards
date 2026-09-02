@@ -1,4 +1,5 @@
 ---
+// Paso 2
 ---
 
 <!DOCTYPE html>
@@ -9,26 +10,55 @@
     <title>Puto el que lo Leea</title>
 </head>
 <body>
-    
+
+<main class="container">
+    <pre>
+----- BEGIN ED25519 SIGNED MESSAGE -------------------------
+Bueno bueno bueno... que tenemos aquí?
+Al chile esto deberia ser el siguiente paso del acertijo, irian 2 de 4.
+Planeo algo con un cifrado por libro, hasta entonces toca chambear en la biblioteca. 
+
+
+Mala Suerte.
+  ~ Sheñey NO estuvo aquí.
+----- BEGIN ED25519 SIGNATURE ------------------------------
+3744CEC62A7C7ACAA60C37267246867C6CFF699B930F0FF78374C8FA37C3EEFF9F56ADB724C48AF91D9CB21B6E901E7D2E780AA1CB23688170BD98755865B20E
+----- END ED25519 SIGNATURE --------------------------------
+    </pre>
+</main>
+
 </body>
-    <pre>
-        Bueno bueno bueno... que tenemos aquí?
-    </pre>
-    <pre>
-        Al chile esto deberia ser el siguiente paso del acertijo, irian 2 de 4.
-    </pre>
-    <pre>
-        Planeo algo con un cifrado por libro, hasta entonces toca chambear en la biblioteca. 
-        Sheñey NO estuvo aqui.
-    </pre>
 </html>
 
 <style>
-    pre {
-        font-family: monospace;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
         background-color: #1a1919;
         color: #fafafac2;
+    }
+    .container {
+        max-width: 485px;
+    }
+    pre {
         padding: 10px;
-        border-radius: 5px;
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+    }
+
+    @media (max-width: 485px) {
+        .container {
+            max-width: 100%;
+        }
+        pre {
+            overflow: auto;
+            white-space: normal;
+            overflow-wrap: initial;
+        }
     }
 </style>
